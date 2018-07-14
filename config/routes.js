@@ -64,6 +64,8 @@ module.exports.routes = {
 
     'GET /streaming/emptyJar': {action: 'moderation/empty-jar', skipAssets: true},
 
+    'GET /streaming/spinWheel': {action: 'moderation/spin-wheel', skipAssets: true},
+
     'GET /streaming/authUrl': {action: 'special/get-auth-url', skipAssets: true},
 
 
