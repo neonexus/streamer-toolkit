@@ -3,6 +3,28 @@
 This [Node.js](https://nodejs.org/) server is built using the [Sails.js](https://sailsjs.com/) framework. It's intended to augment Twitch chat, using [Botisimo](https://botisimo.com/) to bridge 
 the live chat and this API. You can find useful links at the bottom of this README file for more info.
 
+## Current Commands
+
+This is a list of the current commands as I have them in Botisimo, and what they do / what API route they call in this repo. If the command "requires special permission", that means you need to 
+contact StreamLabs after your [application is registered](https://streamlabs.com/dashboard/#/apps/register). Details are on their site.
+
+| Chat Command  | Command's Purpose | Moderator Only? | Requires Special Permission? |
+| ------------- | ----------------- | :-------------: | :--------------------------: |
+| !aurl         | Get the link to start the required authorization flow to connect this server and StreamLabs (`sails.config.streamLabs.token` in `config/local.js`). Your redirect URI **MUST** point to this server's `/streaming/streamlabsCode` endpoint for this to work correctly. This will only work if `isMe` is set in the database. | ✔ | 
+| !credits      | Tell StreamLabs to start running the credits for your stream. | ✔ | 
+| !dice         | A gambling feature, designed to use the loyalty points system from StreamLabs. `!dice rules` will explain what a win or loss is. |  | ✔
+| !dupeMe       | This is a command that was inspired by [Ayka](https://www.twitch.tv/aykatv). It is mainly used while streaming [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included), to allow a viewer to add their name (any name really) to a queue, used to name the "duplicants" (aka 3D-printed people). |  | 
+| !emptyJar     | Tell StreamLabs to empty the tip jar. | ✔ | 
+| !give         | Allows a viewer to give tokens (loyalty points) from their total to another viewer's total. If setup correctly (the `isMe` flag is set in the database), and you run the command, it will bypass the need to have tokens. |  | ✔
+| !joke         | Gets a random joke from [ChuckNorris.io](https://chucknorris.io/), minus "explicit", "political" and "religious" categories. |  | 
+| !nextDupe     | This will display the name of the next duplicant, and remove it from the queue. | ✔ | 
+| !spin         | Tell StreamLabs to spin that funky wheel of awesome! | ✔ | 
+| !startDupes   | Enables the `!dupeMe` command. Moderator only. | ✔ |  
+| !stopDupes    | You guessed it! Disables the `!dupeMe` command. Moderator only. | ✔ | 
+| !take         | This will remove the specified tokens from the specified viewer. | ✔ | ✔
+| !tokens       | This will retrieve the current loyalty points of the user running the command, and attempt to retrieve the length of time they have been following the channel. |  | ✔
+| !undupeMe     | Allows the viewer to remove their name from the duplicant naming pool. |  | 
+
 ## Getting Started
 
 This documentation assumes one is familiar with [Git](https://git-scm.com/), Node / JavaScript, [Redis](https://redis.io/) (or some memory store) and MySQL / [MariaDB](https://mariadb.org/) 
@@ -57,44 +79,22 @@ the current platform, the user's name, and the platform being used to run the co
 Below is the list of commands and the syntax used to make them work. When making a new command, the "name" is the command, and the "response" is where the command syntax goes. Also, make sure to
 update the "MYDOMAIN" to your actual domain, be it Ngrok, or the CloudFlare trick mentioned earlier.
 
-| Chat Command  | Botisimo Syntax | Notes |
-| ------------- | --------------- | ----- |
-| !aurl         | `$(fetch https://MYDOMAIN/streaming/authUrl?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` |
-| !credits      | `$(fetch https://MYDOMAIN/streaming/credits?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | Uses: `!dice`, `!dice rules`, `!dice 10`
-| !dice         | `$[cooldown 3] $(fetch https://MYDOMAIN/streaming/dice?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&bet=$(query))` | This has a 3 second cool down at the beginning of the command, which you can remove / adjust as you see fit.
-| !dupeMe       | `$(fetch https://MYDOMAIN/streaming/dupeMe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&options=$(urlencode $(query))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | Intended use: `!dupeMe NeoNexus` or `!dupeMe NeoNexus I want to be Meep please!`
-| !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` |
-| !give         | `$(fetch https://MYDOMAIN/streaming/give?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
-| !joke         | `$(fetch https://MYDOMAIN/streaming/joke?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
-| !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | 
-| !spin         | `$(fetch https://MYDOMAIN/streaming/spinWheel?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | 
-| !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | 
-| !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` |
-| !take         | `$(fetch https://MYDOMAIN/streaming/take?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | Intended use: `!take @NeoNexus_DeMortis 100`
-| !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?userId=$(urlencode $(userid))&user=$(urlencode $(usernameplain))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` |
-| !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?user=$(urlencode $(usernameplain))&confirmed=$(urlencode $(query))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | 
-
-## Current Commands
-
-This is a list of the current commands as I have them in Botisimo, and what they do / what API route they call in this repo. If the command "requires special permission", that means you need to 
-contact StreamLabs after your [application is registered](https://streamlabs.com/dashboard/#/apps/register). Details are on their site.
-
-| Chat Command  | Command's Purpose | Moderator Only? | Requires Special Permission? | API route |
-| ------------- | ----------------- | --------------- | ---------------------------- | --------- |
-| !aurl         | Get the link to start the required authorization flow to connect this server and StreamLabs (`sails.config.streamLabs.token` in `config/local.js`). Your redirect URI **MUST** point to this server's `/streaming/streamlabsCode` endpoint for this to work correctly. This will only work if `isMe` is set in the database. | Yes | No | /streaming/authUrl
-| !credits      | Tell StreamLabs to start running the credits for your stream. | Yes | No | /streaming/credits
-| !dice         | A gambling feature, designed to use the loyalty points system from StreamLabs. `!dice rules` will explain what a win or loss is. | No | Yes | /streaming/dice
-| !dupeMe       | This is a command that was inspired by [Ayka](https://www.twitch.tv/aykatv). It is mainly used while streaming [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included), to allow a viewer to add their name (any name really) to a queue, used to name the "duplicants" (aka 3D-printed people). | No | No | /streaming/dupeMe
-| !emptyJar     | Tell StreamLabs to empty the tip jar. | Yes | No | /streaming/emptyJar
-| !give         | Allows a viewer to give tokens (loyalty points) from their total to another viewer's total. If setup correctly (the `isMe` flag is set in the database), and you run the command, it will bypass the need to have tokens. | No | Yes | /streaming/give
-| !joke         | Gets a random joke from [ChuckNorris.io](https://chucknorris.io/), minus "explicit", "political" and "religious" categories. | No | No | /streaming/joke
-| !nextDupe     | This will display the name of the next duplicant, and remove it from the queue. | Yes | No | /streaming/nextDupe
-| !spin         | Tell StreamLabs to spin that funky wheel of awesome! | Yes | No | /streaming/spinWheel
-| !startDupes   | Enables the `!dupeMe` command. Moderator only. | Yes | No | /streaming/startDupes
-| !stopDupes    | You guessed it! Disables the `!dupeMe` command. Moderator only. | Yes | No | /streaming/stopDupes
-| !take         | This will remove the specified tokens from the specified viewer. | Yes | Yes | /streaming/take
-| !tokens       | This will retrieve the current loyalty points of the user running the command, and attempt to retrieve the length of time they have been following the channel. | No | Yes | /streaming/tokens
-| !undupeMe     | Allows the viewer to remove their name from the duplicant naming pool. | No | No | /streaming/undupeMe
+| Chat Command  | Botisimo Syntax | API Route | Notes |
+| ------------- | --------------- | --------- | ----- |
+| !aurl         | `$(fetch https://MYDOMAIN/streaming/authUrl?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/authUrl |
+| !credits      | `$(fetch https://MYDOMAIN/streaming/credits?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/credits | Uses: `!dice`, `!dice rules`, `!dice 10`
+| !dice         | `$[cooldown 3] $(fetch https://MYDOMAIN/streaming/dice?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&bet=$(query))` | /streaming/dice | This has a 3 second cool down at the beginning of the command, which you can remove / adjust as you see fit.
+| !dupeMe       | `$(fetch https://MYDOMAIN/streaming/dupeMe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&options=$(urlencode $(query)))` | /streaming/dupeMe | Intended use: `!dupeMe NeoNexus` or `!dupeMe NeoNexus I want to be Meep please!`
+| !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/emptyJar |
+| !give         | `$(fetch https://MYDOMAIN/streaming/give?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
+| !joke         | `$(fetch https://MYDOMAIN/streaming/joke?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
+| !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
+| !spin         | `$(fetch https://MYDOMAIN/streaming/spinWheel?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/spinWheel | 
+| !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/startDupes | 
+| !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/stopDupes |
+| !take         | `$(fetch https://MYDOMAIN/streaming/take?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/take | Intended use: `!take @NeoNexus_DeMortis 100`
+| !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
+| !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
  
 
 ## Useful Links
