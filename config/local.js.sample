@@ -1,0 +1,45 @@
+/**
+ * Local environment settings
+ *
+ * Use this file to specify sensitive configuration settings for the app,
+ * such as credentials that should never be shared with anyone.
+ *
+ * For more information, check out:
+ * https://sailsjs.com/docs/concepts/configuration/the-local-js-file
+ */
+
+module.exports = {
+
+    // Any configuration settings may be overridden below, whether it's built-in Sails
+    // options or custom configuration specifically for your app (e.g. Stripe, Mailgun, etc.)
+
+    datastores: {
+        default: {
+            user: 'root',
+            password: 'root',
+            host: 'localhost',
+            port: 3306,
+            database: 'streaming',
+            timezone: 'UTC'
+        }
+    },
+
+    twitch: {
+        url: 'https://api.twitch.tv/helix',
+        clientId: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+        clientSecret: 'BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB',
+        channel: 'neonexus_demortis' // replace with your channel
+    },
+
+    streamLabs: {
+        url: 'https://streamlabs.com/api/v1.0',
+        token: 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
+        clientId: 'DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD', // Only required if you need to get a streamLabs token (above)
+        clientSecret: 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', // Only required if you need to get a streamLabs token (above)
+        redirectUri: 'https://mydomain.is.awesome/streaming/streamlabsCode' // Only required if you need to get a streamLabs token (above)
+    },
+
+    logSensitiveData: false, // WARNING! Enabling this will log sensitive tokens in the request logs. VERY MUCH NOT RECOMMENDED!
+
+    tz: 'UTC'
+};
