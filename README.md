@@ -8,14 +8,14 @@ the live chat and this API. You can find useful links at the bottom of this READ
 This is a list of the current commands as I have them in Botisimo, and what they do / what API route they call in this repo. If the command "requires special permission", that means you need to 
 contact StreamLabs after your [application is registered](https://streamlabs.com/dashboard/#/apps/register). Details are on their site.
 
-| Chat Command  | Command's Purpose | Moderator Only? | Requires Special Permission? |
+| Chat Command  | Command's Purpose | [Moderator Only?](#admin-and-mod-flags) | Requires Special Permission? |
 | ------------- | ----------------- | :-------------: | :--------------------------: |
-| !aurl         | Get the link to start the required authorization flow to connect this server and StreamLabs (`sails.config.streamLabs.token` in `config/local.js`). Your redirect URI **MUST** point to this server's `/streaming/streamlabsCode` endpoint for this to work correctly. This will only work if `isMe` is set in the database. | ✔ | 
+| !aurl         | Get the link to start the required authorization flow to connect this server and StreamLabs (`sails.config.streamLabs.token` in `config/local.js`). Your redirect URI **MUST** point to this server's `/streaming/streamlabsCode` endpoint for this to work correctly. This will only work if `isMe` is [set in the database](#admin-and-mod-flags). | ✔ | 
 | !credits      | Tell StreamLabs to start running the credits for your stream. | ✔ | 
 | !dice         | A gambling feature, designed to use the loyalty points system from StreamLabs. `!dice rules` will explain what a win or loss is. |  | ✔
 | !dupeMe       | This is a command that was inspired by [Ayka](https://www.twitch.tv/aykatv). It is mainly used while streaming [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included), to allow a viewer to add their name (any name really) to a queue, used to name the "duplicants" (aka 3D-printed people). |  | 
 | !emptyJar     | Tell StreamLabs to empty the tip jar. | ✔ | 
-| !give         | Allows a viewer to give tokens (loyalty points) from their total to another viewer's total. If setup correctly (the `isMe` flag is set in the database), and you run the command, it will bypass the need to have tokens. |  | ✔
+| !give         | Allows a viewer to give tokens (loyalty points) from their total to another viewer's total. If setup correctly (the `isMe` flag is [set in the database](#admin-and-mod-flags)), and you run the command, it will bypass the need to have tokens. |  | ✔
 | !joke         | Gets a random joke from [ChuckNorris.io](https://chucknorris.io/), minus "explicit", "political" and "religious" categories. |  | 
 | !nextDupe     | This will display the name of the next duplicant, and remove it from the queue. | ✔ | 
 | !spin         | Tell StreamLabs to spin that funky wheel of awesome! | ✔ | 
@@ -96,6 +96,31 @@ update the "MYDOMAIN" to your actual domain, be it Ngrok, or the CloudFlare tric
 | !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
 | !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
  
+## Ok, now what?
+
+Assuming all of the above went smoothly, and you have the server running: should see something like this:
+
+```
+debug: -------------------------------------------------------
+debug: :: Sat Jul 14 2018 17:36:50 GMT-0500 (CDT)
+debug: Environment : development
+debug: Port        : 1337
+debug: -------------------------------------------------------
+```
+
+You should also be able to open the `/` route in your browser (example: `https://123abd456.ngrok.io/`), and see something like this: 
+![Example of app running](https://raw.githubusercontent.com/neonexus/streamer-toolkit/master/assets/docs/Sails%20screenshot.png)
+
+If you have Botisimo setup to your channel correctly, you should now be able to run any of the commands listed above.
+
+### Admin and Mod Flags
+
+The admin and mod flags, which are used to control access to sensitive commands, must be set manually inside of the database, in the `viewer` table.
+
+1. You should get all of your entries entered into the `viewer` table through use of any command. Just run `!tokens` on each service you intend to use the server with, be it Twitch, Discord, Mixer or 
+YouTube. This will generate the appropriate rows for you.
+2. Now, after getting some response from the server via Botisimo, you just need to find the rows, and change the `isMe` column on each to a `1` instead of a `0`. 
+3. Follow the same procedure above for any moderators you have, that you want to have access to the mod only commands, instead using the `isMod` column.
 
 ## Useful Links
 
