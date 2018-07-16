@@ -3,6 +3,20 @@
 This [Node.js](https://nodejs.org/) server is built using the [Sails.js](https://sailsjs.com/) framework. It's intended to augment Twitch chat, using [Botisimo](https://botisimo.com/) to bridge 
 the live chat and this API. You can find useful links at the bottom of this README file for more info.
 
+## Index
+
+* [Current Commands](#current-commands)
+* [Getting Started](#getting-started)
+    * [First Thing's First](#first-thing's-first)
+    * [Now, Are We Running?](#now,-are-we-running?)
+    * [Don't Forget to Setup Botisimo](#don't-forget-to-setup-botisimo)
+* [OK, Now What?](#ok,-now-what?)
+    * [Admin and Mod Flags](#admin-and-mod-flags)
+    * [Getting Your StreamLabs Token](#getting-your-streamlabs-token)
+* [I Keep Getting "Error: Bad Response"](#i-keep-getting-"error:-bad-response")
+* [Useful Links](#useful-links)
+* [Version Info](#version-info)
+
 ## Current Commands
 
 This is a list of the current commands as I have them in Botisimo, and what they do / what API route they call in this repo. If the command "requires special permission", that means you need to 
@@ -36,7 +50,7 @@ See [their documentation](https://sailsjs.com/documentation/concepts/models-and-
 **WARNING:** As a general rule, during the setup phase of this server, you should **NOT** be streaming / broadcasting / sharing your screen. There are steps, and certain bits of information
 you don't want the internet to have it's hands on, especially the domain you use. 
 
-### First thing's first
+### First Thing's First
 
 **Keep in-mind** that this project is a Sails.js project, so it might be a good idea to understand the framework's basic concepts before diving into this repo. The 
 [Anatomy of a Sails App](https://sailsjs.com/documentation/anatomy) is a good place to start, if you want to learn more about how the files in this repo do their magic.
@@ -62,7 +76,7 @@ on-hand; don't worry about tables, the framework will generate / alter them on n
 
 **REMEMBER:** NEVER store sensitive data in repositories! Any sensitive bits of data, like API keys, that you add to the project should be stored in the `config/local.js` file.
 
-### Now, are we running?
+### Now, Are We Running?
 
 While in the root directory of the project (say `~/sites/streaming`, or wherever you cloned the repo) and run:
 
@@ -103,7 +117,7 @@ with **ANYONE** (so, don't show your Botisimo commands on stream!).
 | !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
 | !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
  
-## Ok, now what?
+## OK, Now What?
 
 Assuming all of the above went smoothly, and you have the server running, you should see something like this:
 
@@ -167,7 +181,9 @@ right?). Your answer is likely in the `responseBody` column of the `requestlog` 
 
 #### Version info
 
-This app was originally generated on Sat Jun 02 2018 10:04:01 GMT-0500 (CDT) using Sails v1.0.2.
+Current release version: 0.0.2 (2018-07-15 20:14:09-05:00)
+
+This app was originally generated (started) on Sat Jun 02 2018 10:04:01 GMT-0500 (CDT) using Sails v1.0.2.
 
 <!-- Internally, Sails used [`sails-generate@1.15.27`](https://github.com/balderdashy/sails-generate/tree/v1.15.27/lib/core-generators/new). -->
 
