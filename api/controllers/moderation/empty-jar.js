@@ -30,7 +30,7 @@ module.exports = {
             uri = sails.config.streamLabs.url + '/jar/empty';
 
         if (!viewer.isMe && !viewer.isMod) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' sorry, but this is a moderator only command.');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' sorry, but this is a moderator only command.');
         }
 
         let response = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token, method: 'POST'});

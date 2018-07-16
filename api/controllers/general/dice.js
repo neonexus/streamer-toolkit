@@ -40,7 +40,7 @@ module.exports = {
         }
 
         if (inputs.bet !== 'rules' && isNaN(inputs.bet)) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' That is not a number. MrDestructoid SwiftRage');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' That is not a number. MrDestructoid SwiftRage');
         }
 
         if (inputs.bet === 'rules') {
@@ -51,7 +51,7 @@ module.exports = {
         if (inputs.bet) {
             bet = inputs.bet;
         } else {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' You must specify a wager (ex: !dice 5). If you want to know the rules, use !dice rules');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' You must specify a wager (ex: !dice 5). If you want to know the rules, use !dice rules');
         }
 
         let tokens = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
@@ -102,7 +102,7 @@ module.exports = {
         await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token, method: 'POST', body: {points: points}});
 
         return await env.res.chatbotResponse(
-            await sails.helpers.getMentionName(viewer) + ' (' + points + ') you bet: ' + bet + ' and you rolled: ' + firstDie + ' + ' + secondDie + ' = ' + total + '. You ' + message
+            await sails.helpers.getViewerMention(viewer) + ' (' + points + ') you bet: ' + bet + ' and you rolled: ' + firstDie + ' + ' + secondDie + ' = ' + total + '. You ' + message
         );
     }
 };

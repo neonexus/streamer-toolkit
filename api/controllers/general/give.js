@@ -52,20 +52,20 @@ module.exports = {
         let senderTokens = currentTokens.body.points;
 
         if (isNaN(tokens)) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' it appears your syntax is incorrect. This is the correct format: !give @MENTION 10');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' it appears your syntax is incorrect. This is the correct format: !give @MENTION 10');
         }
 
         tokens = tokens * 1;
 
         if (!viewer.isMe && tokens > senderTokens) {
             return await env.res.chatbotResponse(
-                await sails.helpers.getMentionName(viewer) + ' you only have ' + senderTokens + ' tokens left. '
+                await sails.helpers.getViewerMention(viewer) + ' you only have ' + senderTokens + ' tokens left. '
                 + 'You don\'t have enough to give to give @' + recipient + ' ' + tokens + ' tokens.'
             );
         }
 
         if (!viewer.isMe && tokens < 1) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' nice try, but you can\'t take tokens from someone else (or use zero).');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' nice try, but you can\'t take tokens from someone else (or use zero).');
         }
 
         uri = sails.config.streamLabs.url + '/points?channel=' + sails.config.twitch.channel + '&username=' + recipient;
@@ -73,7 +73,7 @@ module.exports = {
         currentTokens = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
 
         if (currentTokens.body.error || !currentTokens.body.id) {
-            return await env.res.chatbotResponse('I\'m sorry ' + await sails.helpers.getMentionName(viewer) + ', but the username ' + recipient + ' does not seem to exist... Try again?');
+            return await env.res.chatbotResponse('I\'m sorry ' + await sails.helpers.getViewerMention(viewer) + ', but the username ' + recipient + ' does not seem to exist... Try again?');
         }
 
         if (!viewer.isMe) {
@@ -90,6 +90,6 @@ module.exports = {
 
         await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token, method: 'POST', body: {points: recipientTokens}});
 
-        return await env.res.chatbotResponse('WOW ' + await sails.helpers.getMentionName(viewer) + ', that was mighty nice of you, giving @' + recipient + ' ' + inputs.tokens + ' tokens like that!');
+        return await env.res.chatbotResponse('WOW ' + await sails.helpers.getViewerMention(viewer) + ', that was mighty nice of you, giving @' + recipient + ' ' + inputs.tokens + ' tokens like that!');
     }
 };

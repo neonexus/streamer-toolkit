@@ -19,80 +19,64 @@ module.exports = function(sails){
             before: {
                 '*': function(req, res, next){
                     if (req.method !== 'HEAD') {
-                        /*let versionLess = req.path.replace(/\/v\d\//, '/');
+                        let body = _.merge({}, req.body),
+                            query = _.merge({}, req.query); // copy the object
 
-                        if (
-                            versionLess !== '/client/me/ping'
-                            && versionLess !== '/'
-                            && versionLess !== '/_ping'
-                            && versionLess !== '/client/me/focus'
-                            && versionLess !== '/user/me/ping'
-                            && versionLess !== '/user/me/focus'
-                            && versionLess !== '/jira/atlassian-connect.json'
-                            && req.path !== '/__getcookie'
-                            && req.path !== '/favicon.ico'
-                        ) {*/
-                            let body = _.merge({}, req.body),
-                                query = _.merge({}, req.query); // copy the object
-
-                            if (!sails.config.logSensitiveData) {
-                                // don't log plain-text passwords
-                                if (body.password) {
-                                    body.password = '*******';
-                                }
-
-                                if (body.password2) {
-                                    body.password2 = '*******';
-                                }
-
-                                if (body.currentPassword) {
-                                    body.currentPassword = '*******';
-                                }
-
-                                if (body.newPassword) {
-                                    body.newPassword = '*******';
-                                }
-
-                                if (body.newPassword2) {
-                                    body.newPassword2 = '*******';
-                                }
-
-                                if (body.pass) {
-                                    body.pass = '*******';
-                                }
-
-                                if (query.securityToken) {
-                                    query.securityToken = '*******';
-                                }
+                        if (!sails.config.logSensitiveData) {
+                            // don't log plain-text passwords
+                            if (body.password) {
+                                body.password = '*******';
                             }
 
-                            if (_.isObject(body)) {
-                                body = CircularJSON.stringify(body);
+                            if (body.password2) {
+                                body.password2 = '*******';
                             }
 
-                            RequestLog.create({
-                                direction: 'inbound',
-                                method: req.method,
-                                path: req.path,
-                                headers: CircularJSON.stringify(req.headers),
-                                getParams: CircularJSON.stringify(query),
-                                body: body
-                            }).meta({fetch: true}).exec(function(err, newRequest){
-                                if (err) {
-                                    //utils.createLog(req, err, 'Error creating request audit log');
-                                    console.log(err);
+                            if (body.currentPassword) {
+                                body.currentPassword = '*******';
+                            }
 
-                                    return next(); // don't stop the traffic if there is a problem
-                                }
+                            if (body.newPassword) {
+                                body.newPassword = '*******';
+                            }
 
-                                req.requestId = newRequest.id;
-                                req._customStartTime = process.hrtime();
+                            if (body.newPassword2) {
+                                body.newPassword2 = '*******';
+                            }
 
-                                return next();
-                            });
-                        /*} else {
+                            if (body.pass) {
+                                body.pass = '*******';
+                            }
+
+                            if (query.securityToken) {
+                                query.securityToken = '*******';
+                            }
+                        }
+
+                        if (_.isObject(body)) {
+                            body = CircularJSON.stringify(body);
+                        }
+
+                        RequestLog.create({
+                            direction: 'inbound',
+                            method: req.method,
+                            path: req.path,
+                            headers: CircularJSON.stringify(req.headers),
+                            getParams: CircularJSON.stringify(query),
+                            body: body
+                        }).meta({fetch: true}).exec(function(err, newRequest){
+                            if (err) {
+                                //utils.createLog(req, err, 'Error creating request audit log');
+                                console.log(err);
+
+                                return next(); // don't stop the traffic if there is a problem
+                            }
+
+                            req.requestId = newRequest.id;
+                            req._customStartTime = process.hrtime();
+
                             return next();
-                        }*/
+                        });
                     } else {
                         return next();
                     }

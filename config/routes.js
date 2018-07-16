@@ -62,6 +62,7 @@ module.exports.routes = {
 
     'GET /streaming/muteAlerts': {action: 'moderation/mute-alerts', skipAssets: true},
     'GET /streaming/unmuteAlerts': {action: 'moderation/unmute-alerts', skipAssets: true},
+    'GET /streaming/testAlert': {action: 'moderation/test-alert', skipAssets: true},
 
     'GET /streaming/authUrl': {action: 'special/get-auth-url', skipAssets: true},
 

@@ -112,15 +112,16 @@ with **ANYONE** (so, don't show them on stream!).
 | !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/emptyJar |
 | !give         | `$(fetch https://MYDOMAIN/streaming/give?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
 | !joke         | `$(fetch https://MYDOMAIN/streaming/joke?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
-| !mute         | `$(fetch https://MYDOMAIN/streaming/muteAlert?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/muteAlerts | Will instruct StreamLabs to mute alert sounds. Don't forget to `!unmute`!
+| !mute         | `$(fetch https://MYDOMAIN/streaming/muteAlerts?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/muteAlerts | Will instruct StreamLabs to mute alert sounds. Don't forget to `!unmute`!
 | !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
 | !spin         | `$(fetch https://MYDOMAIN/streaming/spinWheel?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/spinWheel | 
 | !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/startDupes | 
 | !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/stopDupes |
 | !take         | `$(fetch https://MYDOMAIN/streaming/take?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/take | Intended use: `!take @NeoNexus_DeMortis 100`
+| !testAlert    | `$(fetch https://MYDOMAIN/streaming/testAlert?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&alertType=$(urlencode $(1))&alertPlatform=$(urlencode $(2)))` | /streaming/testAlert | A streamer's best friend. `!testAlert types`
 | !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
 | !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
-| !unmute       | `$(fetch https://MYDOMAIN/streaming/unmuteAlert?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/unmuteAlerts | Will instruct StreamLabs to re-enable alert sounds.
+| !unmute       | `$(fetch https://MYDOMAIN/streaming/unmuteAlerts?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/unmuteAlerts | Will instruct StreamLabs to re-enable alert sounds.
  
 ## OK, Now What?
 
@@ -186,7 +187,7 @@ right?). Your answer is likely in the `responseBody` column of the `requestlog` 
 
 #### Version info
 
-Current release version: 0.0.2 (2018-07-15 20:14:09-05:00)
+Current release version: 0.0.3 (2018-07-16 06:09:31-05:00)
 
 This app was originally generated (started) on Sat Jun 02 2018 10:04:01 GMT-0500 (CDT) using Sails v1.0.2.
 

@@ -45,7 +45,7 @@ module.exports = {
         }
 
         if (!isOpen) {
-            return await env.res.chatbotResponse('Sorry ' + await sails.helpers.getMentionName(viewer) + ', but the duplicant pool is closed at the moment.');
+            return await env.res.chatbotResponse('Sorry ' + await sails.helpers.getViewerMention(viewer) + ', but the duplicant pool is closed at the moment.');
         }
 
         if (!name && note) {
@@ -70,7 +70,7 @@ module.exports = {
                 }
             });
 
-            let say = 'Thanks ' + await sails.helpers.getMentionName(viewer) + ', ';
+            let say = 'Thanks ' + await sails.helpers.getViewerMention(viewer) + ', ';
 
             say += 'your duplicant name "' + name +'"';
 
@@ -89,7 +89,7 @@ module.exports = {
             }
 
             if (dupe) {
-                let say = 'Sorry ' + await sails.helpers.getMentionName(viewer) + ', '
+                let say = 'Sorry ' + await sails.helpers.getViewerMention(viewer) + ', '
                     + 'but you already have a name in the pool: "' + dupe.name + '". You can remove it from the pool with !undupeMe';
 
                 return await env.res.chatbotResponse(say);

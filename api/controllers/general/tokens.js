@@ -60,6 +60,6 @@ module.exports = {
             }
         }
 
-        return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' you have ' + tokens.body.points + ' tokens available. ' + twitchFollowerMessage);
+        return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' you have ' + tokens.body.points + ' tokens available. ' + twitchFollowerMessage);
     }
 };

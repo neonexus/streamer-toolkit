@@ -44,25 +44,25 @@ module.exports = {
         }
 
         if (!viewer.isMe && !viewer.isMod) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' this is a moderator only command.');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' this is a moderator only command.');
         }
 
         let currentTokens = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
 
         if (currentTokens.body.err || !currentTokens.body.id) {
-            return await env.res.chatbotResponse('I\'m sorry ' + await sails.helpers.getMentionName(viewer) + ', but the username ' + recipient + ' does not seem to exist... Try again?');
+            return await env.res.chatbotResponse('I\'m sorry ' + await sails.helpers.getViewerMention(viewer) + ', but the username ' + recipient + ' does not seem to exist... Try again?');
         }
 
         let loserTokens = currentTokens.body.points;
 
         if (isNaN(tokens)) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' it appears your syntax is incorrect. This is the correct format: !take @MENTION 10');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' it appears your syntax is incorrect. This is the correct format: !take @MENTION 10');
         }
 
         tokens = tokens * 1;
 
         if (tokens < 1) {
-            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' the number must be positive (it will be subtracted from the user\'s total).');
+            return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' the number must be positive (it will be subtracted from the user\'s total).');
         }
 
         if (tokens > loserTokens) {
