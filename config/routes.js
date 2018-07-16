@@ -51,20 +51,17 @@ module.exports.routes = {
     'GET /streaming/stopDupes': {action: 'dupes/stop-dupes', skipAssets: true},
 
     'GET /streaming/tokens': {action: 'general/tokens', skipAssets: true},
-
     'GET /streaming/joke': {action: 'general/joke', skipAssets: true},
-
     'GET /streaming/dice': {action: 'general/dice', skipAssets: true},
-
     'GET /streaming/give': {action: 'general/give', skipAssets: true},
-
     'GET /streaming/take': {action: 'moderation/take', skipAssets: true},
 
     'GET /streaming/credits': {action: 'moderation/credits', skipAssets: true},
-
     'GET /streaming/emptyJar': {action: 'moderation/empty-jar', skipAssets: true},
-
     'GET /streaming/spinWheel': {action: 'moderation/spin-wheel', skipAssets: true},
+
+    'GET /streaming/muteAlerts': {action: 'moderation/mute-alerts', skipAssets: true},
+    'GET /streaming/unmuteAlerts': {action: 'moderation/unmute-alerts', skipAssets: true},
 
     'GET /streaming/authUrl': {action: 'special/get-auth-url', skipAssets: true},
 

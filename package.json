@@ -1,51 +1,51 @@
 {
-    "name": "streamer-toolkit",
-    "version": "0.0.2",
-    "description": "This is the server I've developed to augment my streaming experience (chat bot commands). I hope you find it useful. It's intended to be used with Botisimo, StreamLabs and Twitch.",
-    "keywords": [
-        "botisimo",
-        "streamlabs",
-        "stream labs",
-        "twitch",
-        "sails",
-        "neonexus"
-    ],
-    "dependencies": {
-        "@sailshq/connect-redis": "^3.2.1",
-        "@sailshq/lodash": "^3.10.3",
-        "@sailshq/socket.io-redis": "^5.2.0",
-        "async": "^2.6.1",
-        "circular-json": "^0.5.5",
-        "cron": "^1.3.0",
-        "grunt": "^1.0.3",
-        "mocha": "^5.2.0",
-        "moment-timezone": "^0.5.21",
-        "request": "^2.87.0",
-        "sails": "^1.0.2",
-        "sails-hook-orm": "^2.0.0-16",
-        "sails-mysql": "^1.0.0",
-        "serve-favicon": "^2.5.0",
-        "twitch": "^0.16.1"
-    },
-    "devDependencies": {
-        "@sailshq/eslint": "^4.19.3"
-    },
-    "scripts": {
-        "prod": "NODE_ENV=production node app.js",
-        "dev": "NODE_ENV=development node app.js",
-        "test": "npm run lint && npm run custom-tests && echo 'Done.'",
-        "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-        "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-        "tag": "git tag -fa \"current-dev\" -m \"$(date)\" && git push -f origin \"current-dev\"",
-    },
-    "main": "app.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/neonexus/streamer-toolkit.git"
-    },
-    "author": "NeoNexus DeMortis",
-    "license": "BSD-3-Clause-Attribution",
-    "engines": {
-        "node": ">=8.9"
-    }
+  "name": "streamer-toolkit",
+  "version": "0.0.2",
+  "description": "This is the server I've developed to augment my streaming experience (chat bot commands). I hope you find it useful. It's intended to be used with Botisimo, StreamLabs and Twitch.",
+  "keywords": [
+    "botisimo",
+    "streamlabs",
+    "stream labs",
+    "twitch",
+    "sails",
+    "neonexus"
+  ],
+  "dependencies": {
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/lodash": "^3.10.3",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "async": "^2.6.1",
+    "circular-json": "^0.5.5",
+    "cron": "^1.3.0",
+    "grunt": "^1.0.3",
+    "mocha": "^5.2.0",
+    "moment-timezone": "^0.5.21",
+    "request": "^2.87.0",
+    "sails": "^1.0.2",
+    "sails-hook-orm": "^2.0.0-16",
+    "sails-mysql": "^1.0.0",
+    "serve-favicon": "^2.5.0",
+    "twitch": "^0.16.1"
+  },
+  "devDependencies": {
+    "@sailshq/eslint": "^4.19.3"
+  },
+  "scripts": {
+    "prod": "NODE_ENV=production node app.js",
+    "dev": "NODE_ENV=development node app.js",
+    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
+    "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "tag": "git tag -fa \"current-dev\" -m \"$(date)\" && git push -f origin \"current-dev\""
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/neonexus/streamer-toolkit.git"
+  },
+  "author": "NeoNexus DeMortis",
+  "license": "BSD-3-Clause-Attribution",
+  "engines": {
+    "node": ">=8.9"
+  }
 }

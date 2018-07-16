@@ -33,7 +33,7 @@ module.exports = {
         let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
             uri = sails.config.streamLabs.url + '/points?channel=' + sails.config.twitch.channel + '&username=' + inputs.user,
             win = 0,
-            bet = 5;
+            bet = 0;
 
         if (viewer.type !== 'twitch') {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
@@ -44,12 +44,14 @@ module.exports = {
         }
 
         if (inputs.bet === 'rules') {
-            return await env.res.chatbotResponse('The rules are simple: you place your bet with "!dice BET", where BET is the number of tokens you are willing to wager (default is 5), then the bot '
+            return await env.res.chatbotResponse('The rules are simple: you place your bet with "!dice BET", where BET is the number of tokens (!tokens) you are willing to wager, then the bot '
                 + 'will role the dice (2d6). 10 or 11 is break even. 12 is worth 2x. 7 is worth 3x. Snake eyes (2) is lose double. GOOD LUCK!');
         }
 
         if (inputs.bet) {
             bet = inputs.bet;
+        } else {
+            return await env.res.chatbotResponse(await sails.helpers.getMentionName(viewer) + ' You must specify a wager (ex: !dice 5). If you want to know the rules, use !dice rules');
         }
 
         let tokens = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
@@ -72,7 +74,7 @@ module.exports = {
 
         switch (total) {
             case 2:
-                win = (-1 * bet) * 2;
+                win = bet * -2;
                 message = 'lost everything and then some! You just got bit by the snake, and lost ' + win + ' tokens. OUCH! RuleFive WutFace';
                 break;
             case 7:
