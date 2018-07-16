@@ -20,7 +20,7 @@ module.exports = {
             viewer = await Viewer.findOne(inputs.viewer.id);
         }
 
-        if (viewer.type === 'discord') {
+        if (viewer.platform === 'discord') {
             return exits.success('<@' + viewer.userId + '>');
         } else {
             return exits.success('@' + viewer.name);

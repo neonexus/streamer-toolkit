@@ -30,6 +30,7 @@ contact StreamLabs after your [application is registered](https://streamlabs.com
 | !dupeMe       | This is a command that was inspired by [Ayka](https://www.twitch.tv/aykatv). It is mainly used while streaming [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included), to allow a viewer to add their name (any name really) to a queue, used to name the "duplicants" (aka 3D-printed people). |  | 
 | !emptyJar     | Tell StreamLabs to empty the tip jar. | ✔ | 
 | !give         | Allows a viewer to give tokens (loyalty points) from their total to another viewer's total. If setup correctly (the `isMe` flag is [set in the database](#admin-and-mod-flags)), and you run the command, it will bypass the need to have tokens. |  | ✔
+| !giveAll      | Give everyone currently viewing some extra tokens. | ✔ | ✔
 | !joke         | Gets a random joke from [ChuckNorris.io](https://chucknorris.io/), minus "explicit", "political" and "religious" categories. |  | 
 | !mute         | Will silence all StreamLabs alerts. Useful during a raid perhaps. Don't forget to `!unmute`! | ✔ |
 | !nextDupe     | This will display the name of the next duplicant, and remove it from the queue. | ✔ | 
@@ -111,6 +112,7 @@ with **ANYONE** (so, don't show them on stream!).
 | !dupeMe       | `$(fetch https://MYDOMAIN/streaming/dupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&options=$(urlencode $(query)))` | /streaming/dupeMe | Intended use: `!dupeMe NeoNexus` or `!dupeMe NeoNexus I want to be Meep please!`
 | !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/emptyJar |
 | !give         | `$(fetch https://MYDOMAIN/streaming/give?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
+| !giveAll      | `$(fetch https://MYDOMAIN/streaming/giveAll?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&tokens=$(urlencode $(1)))` | /streaming/giveAll | Reward current watchers with tokens: `!giveAll 10`.
 | !joke         | `$(fetch https://MYDOMAIN/streaming/joke?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
 | !mute         | `$(fetch https://MYDOMAIN/streaming/muteAlerts?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/muteAlerts | Will instruct StreamLabs to mute alert sounds. Don't forget to `!unmute`!
 | !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
@@ -187,7 +189,7 @@ right?). Your answer is likely in the `responseBody` column of the `requestlog` 
 
 #### Version info
 
-Current release version: 0.0.3 (2018-07-16 06:09:31-05:00)
+Current release version: 0.0.4 (2018-07-16 08:46:58-05:00)
 
 This app was originally generated (started) on Sat Jun 02 2018 10:04:01 GMT-0500 (CDT) using Sails v1.0.2.
 

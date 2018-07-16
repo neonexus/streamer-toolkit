@@ -55,6 +55,7 @@ module.exports.routes = {
     'GET /streaming/dice': {action: 'general/dice', skipAssets: true},
     'GET /streaming/give': {action: 'general/give', skipAssets: true},
     'GET /streaming/take': {action: 'moderation/take', skipAssets: true},
+    'GET /streaming/giveAll': {action: 'moderation/give-all', skipAssets: true},
 
     'GET /streaming/credits': {action: 'moderation/credits', skipAssets: true},
     'GET /streaming/emptyJar': {action: 'moderation/empty-jar', skipAssets: true},

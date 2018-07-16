@@ -39,7 +39,7 @@ module.exports = {
             recipient = inputs.recipient.replace('@', ''),
             tokens = inputs.tokens;
 
-        if (viewer.type !== 'twitch') {
+        if (viewer.platform !== 'twitch') {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
         }
 
@@ -64,7 +64,7 @@ module.exports = {
             );
         }
 
-        if (!viewer.isMe && tokens < 1) {
+        if (tokens < 1) {
             return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' nice try, but you can\'t take tokens from someone else (or use zero).');
         }
 

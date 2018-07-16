@@ -35,7 +35,7 @@ module.exports = {
             win = 0,
             bet = 0;
 
-        if (viewer.type !== 'twitch') {
+        if (viewer.platform !== 'twitch') {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
         }
 

@@ -32,7 +32,7 @@ module.exports = {
             uri = sails.config.streamLabs.url + '/points?channel=' + sails.config.twitch.channel + '&username=' + inputs.user,
             streamer = await Viewer.findOne({isMe: true, platform: 'twitch'});
 
-        if (viewer.type !== 'twitch') {
+        if (viewer.platform !== 'twitch') {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
         }
 
