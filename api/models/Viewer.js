@@ -17,7 +17,7 @@ module.exports = {
             required: true
         },
 
-        type: {
+        platform: {
             type: 'string',
             isIn: [
                 'twitch',

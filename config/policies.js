@@ -17,6 +17,9 @@ module.exports.policies = {
      *                                                                          *
      ***************************************************************************/
 
-    // '*': true,
+    // '*': true, // this is default
 
+    '*': 'isBotisimo',
+
+    'special/get-streamlabs-token': true
 };

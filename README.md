@@ -33,6 +33,9 @@ or serving APIs (and the security concerns involved). Additionally, while MySQL 
 changed on a fork of this repo. Because this project is built using Sails, there is a variety of database plugin options, making data storage a breeze. 
 See [their documentation](https://sailsjs.com/documentation/concepts/models-and-orm) to read more on your options.
 
+**WARNING:** As a general rule, during the setup phase of this server, you should **NOT** be streaming / broadcasting / sharing your screen. There are steps, and certain bits of information
+you don't want the internet to have it's hands on, especially the domain you use. 
+
 ### First thing's first
 
 **Keep in-mind** that this project is a Sails.js project, so it might be a good idea to understand the framework's basic concepts before diving into this repo. The 
@@ -46,7 +49,7 @@ on-hand; don't worry about tables, the framework will generate / alter them on n
     * You will need to setup an application with [Twitch](https://dev.twitch.tv/docs/authentication/#registration) and [StreamLabs](https://streamlabs.com/dashboard/#/apps/register). 
     * If you are wanting to use commands like `!dice` or `!tokens`, you will need to send an email to the developers of StreamLabs after application registration. The details are on their site,
      linked above. 
-    * Don't worry about the StreamLabs token (just the client ID, secret and redirectUri); I built a special feature to help easily retrieve your StreamLabs OAuth token (which does not expire).
+    * Don't worry about the StreamLabs token (just the client ID, secret and redirectUri); I built a [special feature](#getting-your-streamlabs-token) to help easily retrieve your StreamLabs OAuth token (which does not expire).
     * If you are running the server on your local computer, you'll likely want to use [Ngrok](https://ngrok.com/) to make it available to the outside world. 
         * I've personally also setup a special redirect in [CloudFlare](https://cloudflare.com/) `https://bot.mydoamin.com` which does a 302 redirect, using Page Rules, to my Ngrok address 
         `https://123abc000.ngrok.io`. This is optional, and requires you have your own domain, but it will speed things up tremendously when it comes to the Botisimo side of things (especially if 
@@ -71,34 +74,38 @@ framework to modify your data store), then run the app like this:
 
 `npm run prod`
 
-## Don't forget to setup Botisimo
+### Don't forget to setup Botisimo
+
+**NOTE:** Now, it's not required you use Botisimo, this is just what I personally use. I'm sure these features can be adapted to just about any chatbot that can make external requests.
 
 In order for any of the chat commands to work, we need to setup Botisimo so it talks to the API when a command is run. Every command is designed to use the data from Botisimo, like the user's ID on 
-the current platform, the user's name, and the platform being used to run the command. These 3 basic things are used almost like a password, to help control the use of moderation-only commands.
+the current platform, the user's name, and the platform being used to run the command. These 3 basic things are used almost like a password, to help control the use of moderation-only commands. 
 
-Below is the list of commands and the syntax used to make them work. When making a new command, the "name" is the command, and the "response" is where the command syntax goes. Also, make sure to
-update the "MYDOMAIN" to your actual domain, be it Ngrok, or the CloudFlare trick mentioned earlier.
+Below is the list of commands and the syntax used to make them work. When adding a command, the "name" is the command, and the "response" is where the command syntax goes. Also, make sure to
+update the "MYDOMAIN" to your actual domain, be it Ngrok, or the CloudFlare trick mentioned earlier, and "MYTOKEN" is replaced with your `sails.config.botisimo.customSecurityToken`, which is found
+in `config/local.js`. This is a small security measure, to ensure the request is actually coming from your Botisimo setup; which means you should **NEVER SHARE** your full Botisimo command sytanx
+with **ANYONE** (so, don't show your Botisimo commands on stream!). 
 
 | Chat Command  | Botisimo Syntax | API Route | Notes |
 | ------------- | --------------- | --------- | ----- |
-| !aurl         | `$(fetch https://MYDOMAIN/streaming/authUrl?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/authUrl |
-| !credits      | `$(fetch https://MYDOMAIN/streaming/credits?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/credits | Uses: `!dice`, `!dice rules`, `!dice 10`
-| !dice         | `$[cooldown 3] $(fetch https://MYDOMAIN/streaming/dice?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&bet=$(query))` | /streaming/dice | This has a 3 second cool down at the beginning of the command, which you can remove / adjust as you see fit.
-| !dupeMe       | `$(fetch https://MYDOMAIN/streaming/dupeMe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&options=$(urlencode $(query)))` | /streaming/dupeMe | Intended use: `!dupeMe NeoNexus` or `!dupeMe NeoNexus I want to be Meep please!`
-| !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/emptyJar |
-| !give         | `$(fetch https://MYDOMAIN/streaming/give?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
-| !joke         | `$(fetch https://MYDOMAIN/streaming/joke?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
-| !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
-| !spin         | `$(fetch https://MYDOMAIN/streaming/spinWheel?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/spinWheel | 
-| !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/startDupes | 
-| !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/stopDupes |
-| !take         | `$(fetch https://MYDOMAIN/streaming/take?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/take | Intended use: `!take @NeoNexus_DeMortis 100`
-| !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
-| !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&type=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
+| !aurl         | `$(fetch https://MYDOMAIN/streaming/authUrl?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/authUrl | [Read this](#getting-your-streamlabs-token)
+| !credits      | `$(fetch https://MYDOMAIN/streaming/credits?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/credits | Uses: `!dice`, `!dice rules`, `!dice 10`
+| !dice         | `$[cooldown 3] $(fetch https://MYDOMAIN/streaming/dice?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&bet=$(query))` | /streaming/dice | This has a 3 second cool down at the beginning of the command, which you can remove / adjust as you see fit.
+| !dupeMe       | `$(fetch https://MYDOMAIN/streaming/dupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&options=$(urlencode $(query)))` | /streaming/dupeMe | Intended use: `!dupeMe NeoNexus` or `!dupeMe NeoNexus I want to be Meep please!`
+| !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/emptyJar |
+| !give         | `$(fetch https://MYDOMAIN/streaming/give?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
+| !joke         | `$(fetch https://MYDOMAIN/streaming/joke?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
+| !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
+| !spin         | `$(fetch https://MYDOMAIN/streaming/spinWheel?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/spinWheel | 
+| !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/startDupes | 
+| !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/stopDupes |
+| !take         | `$(fetch https://MYDOMAIN/streaming/take?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/take | Intended use: `!take @NeoNexus_DeMortis 100`
+| !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
+| !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
  
 ## Ok, now what?
 
-Assuming all of the above went smoothly, and you have the server running: should see something like this:
+Assuming all of the above went smoothly, and you have the server running, you should see something like this:
 
 ```
 debug: -------------------------------------------------------
@@ -109,18 +116,44 @@ debug: -------------------------------------------------------
 ```
 
 You should also be able to open the `/` route in your browser (example: `https://123abd456.ngrok.io/`), and see something like this: 
-![Example of app running](https://raw.githubusercontent.com/neonexus/streamer-toolkit/master/assets/docs/Sails%20screenshot.png)
+![Example of app running in browser](https://raw.githubusercontent.com/neonexus/streamer-toolkit/master/assets/docs/Sails%20screenshot.png)
 
-If you have Botisimo setup to your channel correctly, you should now be able to run any of the commands listed above.
+If you have Botisimo setup to your channel correctly, and the server is running, you should now be able to setup your permissions, so you can get your StreamLabs token. 
 
 ### Admin and Mod Flags
 
-The admin and mod flags, which are used to control access to sensitive commands, must be set manually inside of the database, in the `viewer` table.
+The admin and mod flags, which are used to control access to "moderator only" commands, must be set manually inside of the database, in the `viewer` table.
 
-1. You should get all of your entries entered into the `viewer` table through use of any command. Just run `!tokens` on each service you intend to use the server with, be it Twitch, Discord, Mixer or 
-YouTube. This will generate the appropriate rows for you.
+1. You should get all of your entries entered into the `viewer` table through use of any command (which doesn't require StreamLabs token). Just run `!joke` on each service you intend to use the 
+server with, be it Twitch, Discord, Mixer or YouTube. This will generate the appropriate rows for you.
 2. Now, after getting some response from the server via Botisimo, you just need to find the rows, and change the `isMe` column on each to a `1` instead of a `0`. 
 3. Follow the same procedure above for any moderators you have, that you want to have access to the mod only commands, instead using the `isMod` column.
+
+### Getting Your StreamLabs Token
+
+Your server is running, your Botisimo is all setup, you hopefully had a decent chuckle from `!joke`. Now there is just 1 last step to get the fullest potential of this server turned on: your
+StreamLabs API OAuth token.
+
+**MAKE ABSOLUTELY CERTAIN YOU ARE NOT STREAMING, OR BROADCASTING YOUR SCREEN DURING THIS PROCESS!**
+
+1. Use `!aurl` in your Twitch chat (while you are offline!). The server will send you a private message, which will contain a link to start the process. Open this link, you should see a screen like
+this: ![StreamLabs OAuth Screen](https://raw.githubusercontent.com/neonexus/streamer-toolkit/master/assets/docs/StreamLabs%20OAuth.png)
+2. After clicking the approve button, if your redirect URI is setup correctly, you should be sent back to a page on this server. It will display your StreamLabs token to be used in `config/local.js`,
+but it will only do it once. You'll have to start over with `!aurl` otherwise.
+3. Now that the token is saved in your `config/local.js` file, test out `!tokens`. It should display how many loyalty points you have on your channel. Don't have any? Use `!give @MYUSER 100` to give 
+your self some.
+4. Roll those `!dice`!
+
+After you have everything in working order, it might be a good idea to disable `!aurl`. You could do that a number of ways, but the easiest would be to simply delete the command from Botisimo. You
+could also comment out the route registration in `config/routes.js`; just comment out the line with `/streaming/streamlabsCode`. `!aurl` would still "work", and is not dangerous in of it self, but 
+the `/streaming/streamlabsCode` route is where the OAuth token is requested and revealed. Disabling the route would render this impossible, but also keep the code intact, should you need it later.
+
+## I Keep Getting "Error: Bad Response"
+
+This could happen for a myriad of reasons. Generally, if there was a serious error, it will be in your console / terminal, where you are running your server. But, the next best place to look, is in 
+the `requestlog` table. There, every request, be it inbound or outbound, is logged there. This includes responses that Botisimio doesn't like, either because the response this server gave to Botisimo
+is something like a 403 (Forbidden) status (because the securityToken is not setup correctly), or a 400 (Bad Request) because the request parameters are not setup correctly (maybe syntax isn't quite 
+right?). Your answer is likely in the `responseBody` column of the `requestlog` table.
 
 ## Useful Links
 

@@ -15,7 +15,7 @@ module.exports = {
             required: true
         },
 
-        type: {
+        platform: {
             type: 'string',
             required: true
         },
@@ -34,7 +34,7 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, type: inputs.type}),
+        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
             recipient = inputs.recipient.replace('@', ''),
             uri = sails.config.streamLabs.url + '/points?channel=' + sails.config.twitch.channel + '&username=' + recipient,
             tokens = inputs.tokens;

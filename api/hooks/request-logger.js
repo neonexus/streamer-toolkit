@@ -32,7 +32,8 @@ module.exports = function(sails){
                             && req.path !== '/__getcookie'
                             && req.path !== '/favicon.ico'
                         ) {*/
-                            let body = _.merge({}, req.body); // copy the object
+                            let body = _.merge({}, req.body),
+                                query = _.merge({}, req.query); // copy the object
 
                             if (!sails.config.logSensitiveData) {
                                 // don't log plain-text passwords
@@ -59,6 +60,10 @@ module.exports = function(sails){
                                 if (body.pass) {
                                     body.pass = '*******';
                                 }
+
+                                if (query.securityToken) {
+                                    query.securityToken = '*******';
+                                }
                             }
 
                             if (_.isObject(body)) {
@@ -70,7 +75,7 @@ module.exports = function(sails){
                                 method: req.method,
                                 path: req.path,
                                 headers: CircularJSON.stringify(req.headers),
-                                getParams: CircularJSON.stringify(req.query),
+                                getParams: CircularJSON.stringify(query),
                                 body: body
                             }).meta({fetch: true}).exec(function(err, newRequest){
                                 if (err) {

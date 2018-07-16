@@ -15,7 +15,7 @@ module.exports = {
             required: true
         },
 
-        type: {
+        platform: {
             type: 'string',
             required: true
         }
@@ -26,7 +26,7 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, type: inputs.type}),
+        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
             uri = sails.config.streamLabs.url + '/authorize?client_id=' + sails.config.streamLabs.clientId + '&redirect_uri=' + encodeURIComponent(sails.config.streamLabs.redirectUri)
                 + '&response_type=code&scope=donations.read+donations.create+jar.write+alerts.create+points.read+points.write+alerts.write+credits.write+profiles.write+wheel.write';
 

@@ -15,7 +15,7 @@ module.exports = {
             required: true
         },
 
-        type: {
+        platform: {
             type: 'string',
             required: true
         },
@@ -31,12 +31,12 @@ module.exports = {
     },
 
     fn: async function (inputs, exits) {
-        let viewer = await Viewer.findOne({userId: inputs.userId, type: inputs.type});
+        let viewer = await Viewer.findOne({userId: inputs.userId, platform: inputs.platform});
 
         if (!viewer) {
-            viewer = await Viewer.create({userId: inputs.userId, name: inputs.user, type: inputs.type}).fetch();
+            viewer = await Viewer.create({userId: inputs.userId, name: inputs.user, platform: inputs.platform}).fetch();
         } else if (viewer && viewer.name !== inputs.user) {
-            let temp = await Viewer.update({userId: inputs.userId, type: inputs.type}, {name: inputs.user}).fetch();
+            let temp = await Viewer.update({userId: inputs.userId, platform: inputs.platform}, {name: inputs.user}).fetch();
             viewer = temp[0];
         }
 

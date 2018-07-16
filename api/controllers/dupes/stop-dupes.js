@@ -15,7 +15,7 @@ module.exports = {
             required: true
         },
 
-        type: {
+        platform: {
             type: 'string',
             required: true
         }
@@ -24,7 +24,7 @@ module.exports = {
     exits: {},
 
     fn: async function(inputs, exits, env){
-        let user = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, type: inputs.type});
+        let user = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform});
 
         if (!user.isMe && !user.isMod) {
             return await env.res.chatbotResponse('You are not a moderator, and are not allowed to use this command.');

@@ -20,7 +20,7 @@ module.exports = {
             required: false
         },
 
-        type: {
+        platform: {
             type: 'string',
             required: true
         }
@@ -32,7 +32,7 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, type: inputs.type}),
+        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
             name = inputs.options.substr(0, inputs.options.indexOf(' ')),
             note = inputs.options.substr(inputs.options.indexOf(' ') + 1),
             isOpen = await sails.helpers.getOption('dupes');

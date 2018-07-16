@@ -18,9 +18,9 @@ module.exports.session = {
      * of your users, forcing them to log in again.                             *
      *                                                                          *
      ***************************************************************************/
-    secret: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // CHANGE ME TO SOMETHING RANDOM!
+    secret: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Go here and generate a new SHA256 string to use: https://jsfiddle.net/hackerferret/Bw4d4/
 
-    // Go here and generate a new SHA256 string to use here: https://jsfiddle.net/hackerferret/Bw4d4/
+    //adapter: '@sailshq/connect-redis', // enable this if you have Redis installed (Recommended!)
 
 
     /***************************************************************************

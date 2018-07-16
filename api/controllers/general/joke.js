@@ -15,7 +15,7 @@ module.exports = {
             required: true
         },
 
-        type: {
+        platform: {
             type: 'string',
             required: true
         },
@@ -31,6 +31,7 @@ module.exports = {
 
     fn: async function (inputs, exits, env) {
         let uri = 'https://api.chucknorris.io/jokes/random?category=',
+            viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}), // just to make setting up admins easier
             cats = 'dev, movie, food, celebrity, science, sport, animal, history, music, travel, career, money, fashion';
 
         if (inputs.category) {
