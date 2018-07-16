@@ -7,13 +7,13 @@ the live chat and this API. You can find useful links at the bottom of this READ
 
 * [Current Commands](#current-commands)
 * [Getting Started](#getting-started)
-    * [First Thing's First](#first-thing's-first)
-    * [Now, Are We Running?](#now,-are-we-running?)
-    * [Don't Forget to Setup Botisimo](#don't-forget-to-setup-botisimo)
-* [OK, Now What?](#ok,-now-what?)
+    * [First Thing's First](#first-things-first)
+    * [Now, Are We Running?](#now-are-we-running)
+    * [Don't Forget to Setup Botisimo](#dont-forget-to-setup-botisimo)
+* [OK, Now What?](#ok-now-what)
     * [Admin and Mod Flags](#admin-and-mod-flags)
     * [Getting Your StreamLabs Token](#getting-your-streamlabs-token)
-* [I Keep Getting "Error: Bad Response"](#i-keep-getting-"error:-bad-response")
+* [I Keep Getting "Error: Bad Response"](#i-keep-getting-error-bad-response)
 * [Useful Links](#useful-links)
 * [Version Info](#version-info)
 
@@ -98,7 +98,7 @@ the current platform, the user's name, and the platform being used to run the co
 Below is the list of commands and the syntax used to make them work. When adding a command, the "name" is the command, and the "response" is where the command syntax goes. Also, make sure to
 update the "MYDOMAIN" to your actual domain, be it Ngrok, or the CloudFlare trick mentioned earlier, and "MYTOKEN" is replaced with your `sails.config.botisimo.customSecurityToken`, which is found
 in `config/local.js`. This is a small security measure, to ensure the request is actually coming from your Botisimo setup; which means you should **NEVER SHARE** your full Botisimo command sytanx
-with **ANYONE** (so, don't show your Botisimo commands on stream!). 
+with **ANYONE** (so, don't show them on stream!). 
 
 | Chat Command  | Botisimo Syntax | API Route | Notes |
 | ------------- | --------------- | --------- | ----- |
@@ -165,7 +165,7 @@ the `/streaming/streamlabsCode` route is where the OAuth token is requested and 
 ## I Keep Getting "Error: Bad Response"
 
 This could happen for a myriad of reasons. Generally, if there was a serious error, it will be in your console / terminal, where you are running your server. But, the next best place to look, is in 
-the `requestlog` table. There, every request, be it inbound or outbound, is logged there. This includes responses that Botisimio doesn't like, either because the response this server gave to Botisimo
+the `requestlog` table. There, every request, be it inbound or outbound, is logged. This includes responses that Botisimio doesn't like, either because the response this server gave to Botisimo
 is something like a 403 (Forbidden) status (because the securityToken is not setup correctly), or a 400 (Bad Request) because the request parameters are not setup correctly (maybe syntax isn't quite 
 right?). Your answer is likely in the `responseBody` column of the `requestlog` table.
 
