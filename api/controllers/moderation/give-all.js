@@ -1,26 +1,29 @@
 module.exports = {
     friendlyName: 'Give tokens to all viewers',
 
-    description: '',
+    description: 'Allows the streamer or mods to give all current viewers tokens. Cheers!',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         tokens: {
+            description: 'The number of tokens to give everyone.',
             type: 'number'
         }
     },

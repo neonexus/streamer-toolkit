@@ -1,26 +1,29 @@
 module.exports = {
     friendlyName: 'Test StreamLabs Alerts',
 
-    description: '',
+    description: 'Tell StreamLabs to fire a test alert. Use !testAlert types to get the list of options.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         alertType: {
+            description: 'The chosen alert type that StreamLabs should fire.',
             type: 'string',
             required: false, // so we can handle empty string
             isIn: [
@@ -37,6 +40,7 @@ module.exports = {
         },
 
         alertPlatform: {
+            description: 'In some cases, we need to know the context of the alert. Like "subscription", is it for Twitch or YouTube?',
             type: 'string',
             required: false,
             isIn: [

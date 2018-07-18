@@ -4,7 +4,7 @@ module.exports = {
 
     friendlyName: 'Finalize request log',
 
-    description: '',
+    description: 'Used by response handlers to log final responses to requests.',
 
     inputs: {
         req: {
@@ -21,7 +21,7 @@ module.exports = {
 
         body: {
             type: 'ref',
-            description: '',
+            description: 'The body of the response.',
             required: true
         }
     },

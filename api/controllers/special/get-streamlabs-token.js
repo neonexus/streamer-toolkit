@@ -1,10 +1,11 @@
 module.exports = {
     friendlyName: 'Get token',
 
-    description: '',
+    description: 'A very special route, used by StreamLabs only, as the redirect URI, which will allow you to retrieve the OAuth token required for StreamLabs interactions.',
 
     inputs: {
         code: {
+            description: 'The OAuth code required to get the token.',
             type: 'string',
             required: true
         }

@@ -1,10 +1,11 @@
 module.exports = {
     friendlyName: 'Get Option',
 
-    description: '',
+    description: 'Get the stored option from the database, otherwise returns "undefined".',
 
     inputs: {
         name: {
+            description: 'The name of the option to retrieve.',
             type: 'string',
             required: true
         }

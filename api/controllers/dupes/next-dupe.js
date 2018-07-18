@@ -1,21 +1,23 @@
 module.exports = {
     friendlyName: 'Next Dupe',
 
-    description: '',
+    description: 'Get the next duplicant name from the queue, remove them from queue and announce.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         }

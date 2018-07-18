@@ -1,21 +1,23 @@
 module.exports = {
     friendlyName: 'Get auth URL',
 
-    description: '',
+    description: 'A special feature, used to get the OAuth URL required to setup permissions for this server.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         }

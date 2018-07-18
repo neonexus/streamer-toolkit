@@ -2,10 +2,11 @@ module.exports = {
 
     friendlyName: 'Get mention name',
 
-    description: '',
+    description: 'Get the @mention for the viewer.',
 
     inputs: {
         viewer: {
+            description: 'A "viewer" model record.',
             type: 'ref',
             required: true
         }

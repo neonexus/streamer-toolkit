@@ -3,6 +3,27 @@
 This [Node.js](https://nodejs.org/) server is built using the [Sails.js](https://sailsjs.com/) framework. It's intended to augment Twitch chat, using [Botisimo](https://botisimo.com/) to bridge 
 the live chat and this API. You can find useful links at the bottom of this README file for more info.
 
+## Some Questions I'm Sure...
+
+**StreamLabs has a chatbot, why not use that instead of Botisimo?**
+
+Well, frankly I can't use their chatbot, I'm on a Mac; so, I've had to find other means. Botisimo works, is easy to configure, and is a chatbot service, instead of downloadable software, which 
+could be useful, say if the power goes out (of course, that would require this server be running remotely as well).
+
+**Why run this server, why not just use a chatbot to handle these commands?**
+
+Because I'm a programmer, I was inspired to create, and because it allows me a greater flexibility in what is possible in live chat. `!testAlert` for example, instructs StreamLabs to send a test 
+alert so you can adjust your overlays. Or `!joke` to get a random [Chuck Norris](https://chucknorris.io/) factoid. It has also allowed me to make use of the best parts of Botisimo, while using 
+the loyalty system on StreamLabs for things like `!dice`, to gamble with the "tokens" viewers earn from watching. I also hope, that this could be a useful tool to some, be it a something to learn 
+with, or ideally inspire some new chat feature.
+
+**Why Sails, and not X framework?**
+
+I really like Sails. It's well structured, well defined, and open to configuration. Just [check out the controller](../../blob/master/api/controllers/general/joke.js) for the `!joke` command. It's clean, 
+simple to understand, and has it's own documentation built into the JavaScript file itself, making custom documentation a breeze, while providing enforcement of input constraints, with simple 
+instructions.
+
+
 ## Index
 
 * [Current Commands](#current-commands)
@@ -19,7 +40,7 @@ the live chat and this API. You can find useful links at the bottom of this READ
 
 ## Current Commands
 
-This is a list of the current commands as I have them in Botisimo, and what they do / what API route they call in this repo. If the command "requires special permission", that means you need to 
+This is a list of the current commands as I have them in Botisimo, and what they do in this repo. If the command "requires special permission", that means you need to 
 contact StreamLabs after your [application is registered](https://streamlabs.com/dashboard/#/apps/register). Details are on their site.
 
 | Chat Command  | Command's Purpose | [Moderator Only?](#admin-and-mod-flags) | Requires Special Permission? |

@@ -3,21 +3,23 @@ let moment = require('moment-timezone');
 module.exports = {
     friendlyName: 'Tokens',
 
-    description: '',
+    description: 'Get the current viewer\'s current token count.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         }

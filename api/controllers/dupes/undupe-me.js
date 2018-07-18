@@ -1,28 +1,31 @@
 module.exports = {
     friendlyName: 'Un-dupe Me',
 
-    description: '',
+    description: 'Remove the viewer\'s duplicant name from the pool.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
+            type: 'string',
+            required: true
+        },
+
+        platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         confirmed: {
+            description: 'Should be "yes" from "!undupeMe yes".',
             type: 'string',
             required: false
-        },
-
-        platform: {
-            type: 'string',
-            required: true
         }
     },
 

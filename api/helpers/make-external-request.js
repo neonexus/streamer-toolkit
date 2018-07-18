@@ -5,7 +5,7 @@ let request = require('request'),
 module.exports = {
     friendlyName: 'Make external request',
 
-    description: '',
+    description: 'A wrapper tool, to allow for easy logging of external requests.',
 
     inputs: {
         method: {

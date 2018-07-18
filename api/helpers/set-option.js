@@ -1,15 +1,17 @@
 module.exports = {
     friendlyName: 'Set Option',
 
-    description: '',
+    description: 'Store an arbitrary option in the database.',
 
     inputs: {
         name: {
+            description: 'The handle to use for retrieval.',
             type: 'string',
             required: true
         },
 
         val: {
+            description: 'The JSON-ifiable value.',
             type: 'ref',
             required: true
         }

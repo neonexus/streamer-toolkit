@@ -5,22 +5,25 @@ module.exports = {
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         req: {
+            description: 'The "req" object, so we can keep track of the viewer through the entire request (for logging)',
             type: 'ref',
             required: true
         }

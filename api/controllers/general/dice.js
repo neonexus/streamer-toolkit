@@ -1,27 +1,31 @@
 module.exports = {
     friendlyName: 'Dice game',
 
-    description: '',
+    description: 'A simple gambling game that uses the viewer\'s tokens.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         bet: {
-            type: 'string' // so we can use a custom error message if it's not a number
+            description: 'Should be a number from "!bet 10" or the like.',
+            type: 'string', // so we can use a custom error message if it's not a number
+            required: false // we have a custom error message in the controller
         }
     },
 

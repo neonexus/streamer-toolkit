@@ -1,28 +1,31 @@
 module.exports = {
     friendlyName: 'Dupe Me',
 
-    description: '',
+    description: '!dupeMe handler, it adds the viewers requested name to the duplicant name pool.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
+            type: 'string',
+            required: true
+        },
+
+        platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         options: {
+            description: 'The part after !dupeMe, so in case of "!dupeMe Neo", this would be "Neo".',
             type: 'string',
             required: false
-        },
-
-        platform: {
-            type: 'string',
-            required: true
         }
     },
 

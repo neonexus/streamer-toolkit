@@ -1,30 +1,34 @@
 module.exports = {
     friendlyName: 'Give tokens',
 
-    description: '',
+    description: 'Allows the viewer to give tokens to another. Or, in the case of admins, just give tokens away.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         tokens: {
+            description: 'Number of tokens to give',
             type: 'string' // so we can use a custom error message if it's not a number
         },
 
         recipient: {
+            description: 'To whom we are sending tokens',
             type: 'string'
         }
     },

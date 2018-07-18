@@ -1,30 +1,34 @@
 module.exports = {
     friendlyName: 'Take tokens away',
 
-    description: '',
+    description: 'Moderator only command to remove tokens from a particular viewer.',
 
     inputs: {
         user: {
-            description: '',
+            description: 'The plain username of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         userId: {
+            description: 'The platform-dependent user ID of the viewer running the command.',
             type: 'string',
             required: true
         },
 
         platform: {
+            description: 'The platform that the command was issued from.',
             type: 'string',
             required: true
         },
 
         tokens: {
+            description: 'The number of tokens to remove from the viewer.',
             type: 'string' // so we can use a custom error message if it's not a number
         },
 
         recipient: {
+            description: 'The viewer to remove tokens from.',
             type: 'string'
         }
     },
