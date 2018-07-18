@@ -9,12 +9,14 @@ module.exports = {
 
         userId: {
             type: 'string',
-            required: true
+            required: true,
+            columnType: 'varchar(191)'
         },
 
         name: {
             type: 'string',
-            required: true
+            required: true,
+            columnType: 'varchar(191)'
         },
 
         platform: {
@@ -25,7 +27,8 @@ module.exports = {
                 'mixer',
                 'youtube'
             ],
-            required: true
+            required: true,
+            columnType: 'varchar(7)'
         },
 
         isMe: {
@@ -41,7 +44,8 @@ module.exports = {
         note: {
             type: 'string',
             required: false,
-            allowNull: true
+            allowNull: true,
+            columnType: 'varchar(191)'
         },
 
         createdAt: {

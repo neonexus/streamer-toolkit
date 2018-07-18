@@ -23,7 +23,7 @@ module.exports = {
         },
 
         options: {
-            description: 'The part after !dupeMe, so in case of "!dupeMe Neo", this would be "Neo".',
+            description: 'The part after !dupeMe, so in case of "!dupeMe Neo I want to be Meep please!", this would be "Neo I want to be Meep please!".',
             type: 'string',
             required: false
         }

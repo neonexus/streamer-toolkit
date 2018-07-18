@@ -1,7 +1,7 @@
 module.exports = {
     friendlyName: 'Get viewer',
 
-    description: '',
+    description: 'Get a "viewer" model record. Will auto-update username if it changes (possible on Twitch anyway).',
 
     inputs: {
         user: {
@@ -23,7 +23,7 @@ module.exports = {
         },
 
         req: {
-            description: 'The "req" object, so we can keep track of the viewer through the entire request (for logging)',
+            description: 'The "req" object, so we can keep track of the viewer through the entire request (for logging).',
             type: 'ref',
             required: true
         }

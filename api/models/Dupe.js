@@ -14,13 +14,15 @@ module.exports = {
 
         name: {
             type: 'string',
-            required: true
+            required: true,
+            columnType: 'varchar(191)'
         },
 
         note: {
             type: 'string',
             required: false,
-            allowNull: true
+            allowNull: true,
+            columnType: 'varchar(191)'
         },
 
         createdAt: {

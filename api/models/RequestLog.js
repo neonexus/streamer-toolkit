@@ -40,7 +40,8 @@ module.exports = {
 
         path: {
             type: 'string',
-            required: true
+            required: true,
+            columnType: 'varchar(191)'
         },
 
         headers: {
@@ -81,7 +82,8 @@ module.exports = {
 
         responseTime: {
             type: 'string',
-            allowNull: true
+            allowNull: true,
+            columnType: 'varchar(191)'
         },
 
         createdAt: {
