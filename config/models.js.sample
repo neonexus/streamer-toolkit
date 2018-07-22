@@ -101,7 +101,7 @@ module.exports.models = {
      ******************************************************************************/
 
     dataEncryptionKeys: {
-        default: 'UOCD623hNeq6XWpJTiXpPXVWTI9y5QdNO5wwsVt/Wvw='
+        default: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' // Go here and generate a new SHA256 string to use: https://jsfiddle.net/hackerferret/Bw4d4/
     },
 
 

@@ -45,6 +45,8 @@ module.exports = {
         customSecurityToken: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' // Go here and generate a new SHA256 string to use: https://jsfiddle.net/hackerferret/Bw4d4/
     },
 
+    allowExplicit: false, // Changing this to true will enable !joke explicit | religious | political, and disable the naughty words filter
+
     logSensitiveData: false, // WARNING! Enabling this will log sensitive tokens in the request logs. VERY MUCH NOT RECOMMENDED!
 
     tz: 'UTC'

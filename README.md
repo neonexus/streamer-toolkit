@@ -14,13 +14,13 @@ could be useful, say if the power goes out (of course, that would require this s
 
 Because I'm a programmer, I was inspired to create, and because it allows me a greater flexibility in what is possible in live chat. `!testAlert` for example, instructs StreamLabs to send a test 
 alert so you can adjust your overlays. Or `!joke` to get a random [Chuck Norris](https://chucknorris.io/) factoid. It has also allowed me to make use of the best parts of Botisimo, while using 
-the loyalty system on StreamLabs for things like `!dice`, to gamble with the "tokens" viewers earn from watching. I also hope, that this could be a useful tool to some, be it a something to learn 
+the loyalty system on StreamLabs for things like `!dice`, to gamble with the "tokens" viewers earn from watching. I also hope, that this could be a useful tool to some, be it something to learn 
 with, or ideally inspire some new chat feature.
 
 **Why Sails, and not X framework?**
 
-I really like Sails. It's well structured, well defined, and open to configuration. Just [check out the controller](../../blob/master/api/controllers/general/joke.js) for the `!joke` command. It's clean, 
-simple to understand, and has it's own documentation built into the JavaScript file itself, making custom documentation a breeze, while providing enforcement of input constraints, with simple 
+I really like Sails. It's well structured, well defined, and open to configuration. Just [check out the controller](../../blob/master/api/controllers/general/joke.js) for the `!joke` command. It's 
+clean, simple to understand, and has it's own documentation built into the JavaScript file itself, making custom documentation a breeze, while providing enforcement of input constraints, with simple 
 instructions.
 
 
@@ -81,14 +81,15 @@ you don't want the internet to have it's hands on, especially the domain you use
 [Anatomy of a Sails App](https://sailsjs.com/documentation/anatomy) is a good place to start, if you want to learn more about how the files in this repo do their magic.
 
 Make sure you have the repo cloned to your machine, you've run `npm install`, you have [Redis installed](https://redis.io/topics/quickstart), you have a database setup and said database credentials 
-on-hand; don't worry about tables, the framework will generate / alter them on non-production. Next, we need to make sure you have 2 configuration files in-place: `config/local.js` and 
-`config/session.js`. There are 2 sample files with the same names, just ending with `.sample`.
+on-hand; don't worry about tables, the framework will generate / alter them on non-production. Next, we need to make sure you have 3 configuration files in-place: `config/local.js`, 
+`config/models.js`, and `config/session.js`. There are 2 sample files with the same names, just ending with `.sample`.
 
 1. Copy `config/local.js.sample` -> `config/local.js`, then modify all of the appropriate fields.
     * You will need to setup an application with [Twitch](https://dev.twitch.tv/docs/authentication/#registration) and [StreamLabs](https://streamlabs.com/dashboard/#/apps/register). 
     * If you are wanting to use commands like `!dice` or `!tokens`, you will need to send an email to the developers of StreamLabs after application registration. The details are on their site,
-     linked above. 
-    * Don't worry about the StreamLabs token (just the client ID, secret and redirectUri); I built a [special feature](#getting-your-streamlabs-token) to help easily retrieve your StreamLabs OAuth token (which does not expire).
+        linked above. 
+    * Don't worry about the StreamLabs token (just the client ID, secret and redirectUri); I built a [special feature](#getting-your-streamlabs-token) to help easily retrieve your StreamLabs OAuth 
+        token (which does not expire).
     * If you are running the server on your local computer, you'll likely want to use [Ngrok](https://ngrok.com/) to make it available to the outside world. 
         * I've personally also setup a special redirect in [CloudFlare](https://cloudflare.com/) `https://bot.mydoamin.com` which does a 302 redirect, using Page Rules, to my Ngrok address 
         `https://123abc000.ngrok.io`. This is optional, and requires you have your own domain, but it will speed things up tremendously when it comes to the Botisimo side of things (especially if 
@@ -97,7 +98,10 @@ on-hand; don't worry about tables, the framework will generate / alter them on n
 
         * Just make sure you update the page rule when your Ngrok address changes (hence the temporary redirect).
 
-1. Next, copy `config/session.js.sample` -> `config/session.js`, and set the secret in the file to something unique and random (a hashed string of the current time + "I'm a little teapot" would work).
+1. Next, copy `config/models.js.sample` -> `config/models.js`, and set the secret in the file to something unique and random (a hashed string of the current time + "I'm a little teapot" for example).
+[Here is a handy script](https://jsfiddle.net/hackerferret/Bw4d4/) to generate SHA 256 hashes.
+
+1. Now, copy `config/session.js.sample` -> `config/session.js`, and do as you did before with `config/models.js`, set the secret in the file to something unique and random. 
 
 **REMEMBER:** NEVER store sensitive data in repositories! Any sensitive bits of data, like API keys, that you add to the project should be stored in the `config/local.js` file.
 
