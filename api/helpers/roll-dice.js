@@ -3,7 +3,7 @@ module.exports = {
 
     friendlyName: 'Role Dice',
 
-    description: 'A simple tool to "roll dice". Takes in dice count and their max number, assuming 1 is lowest (2d6), and returns an array of the results.',
+    description: 'A simple tool to "roll dice". Takes in dice count and their max number (2d6), assuming 1 is lowest, and returns an array of the results.',
 
     inputs: {
         dice: {

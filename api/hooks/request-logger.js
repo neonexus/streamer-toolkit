@@ -20,7 +20,8 @@ module.exports = function(sails){
                 '*': function(req, res, next){
                     if (req.method !== 'HEAD') {
                         let body = _.merge({}, req.body),
-                            query = _.merge({}, req.query); // copy the object
+                            query = _.merge({}, req.query),
+                            headers = _.merge({}, req.headers); // copy the object
 
                         if (!sails.config.logSensitiveData) {
                             // don't log plain-text passwords
@@ -51,6 +52,10 @@ module.exports = function(sails){
                             if (query.securityToken) {
                                 query.securityToken = '*******';
                             }
+
+                            if (headers.securityToken) {
+                                headers.securityToken = '*******';
+                            }
                         }
 
                         if (_.isObject(body)) {
@@ -61,7 +66,7 @@ module.exports = function(sails){
                             direction: 'inbound',
                             method: req.method,
                             path: req.path,
-                            headers: CircularJSON.stringify(req.headers),
+                            headers: CircularJSON.stringify(headers),
                             getParams: CircularJSON.stringify(query),
                             body: body
                         }).meta({fetch: true}).exec(function(err, newRequest){
