@@ -44,7 +44,7 @@ module.exports = {
                 : inputs.quote.trim().substr(inputs.quote.trim().indexOf(' ') + 1),
             out = '',
             gameId = null,
-            gameName = 'Just Chatting (offline)',
+            gameName = 'Off-stream chat',
             quote = null;
 
         if (command && command !== '') {

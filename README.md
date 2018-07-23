@@ -1,7 +1,9 @@
 # Streamer Toolkit
 
-This [Node.js](https://nodejs.org/) server is built using the [Sails.js](https://sailsjs.com/) framework. It's intended to augment Twitch chat, using [Botisimo](https://botisimo.com/) to bridge 
-the live chat and this API. You can find useful links at the bottom of this README file for more info.
+This [Node.js](https://nodejs.org/) server is built using the [Sails.js](https://sailsjs.com/) framework. It's intended to augment Twitch chat, using [Botisimo](https://botisimo.com/) (any chatbot 
+service or software can be used, provided it can make external requests, I just use Botisimo) to bridge the live chat and this API. It contains ways to control certain aspects of your StreamLabs 
+integration (muting alert sounds during a raid, for example), a simple dice game to gamble with the streamer's loyalty points (aka currency), a quote system, a tap into random Chuck Norris factoids, 
+and many others.
 
 ## Some Questions I'm Sure...
 
@@ -45,6 +47,7 @@ contact StreamLabs after your [application is registered](https://streamlabs.com
 
 | Chat Command  | Command's Purpose | [Moderator Only?](#admin-and-mod-flags) | Requires Special Permission? |
 | ------------- | ----------------- | :-------------: | :--------------------------: |
+| !8ball        | Ask the magic 8 ball a question, maybe get an answer. | |
 | !aurl         | Get the link to start the required authorization flow to connect this server and StreamLabs (`sails.config.streamLabs.token` in `config/local.js`). Your redirect URI **MUST** point to this server's `/streaming/streamlabsCode` endpoint for this to work correctly. This will only work if `isMe` is [set in the database](#admin-and-mod-flags). | ✔ | 
 | !credits      | Tell StreamLabs to start running the credits for your stream. | ✔ | 
 | !dice         | A gambling feature, designed to use the loyalty points system from StreamLabs. `!dice rules` will explain what a win or loss is. |  | ✔
@@ -55,6 +58,7 @@ contact StreamLabs after your [application is registered](https://streamlabs.com
 | !joke         | Gets a random joke from [ChuckNorris.io](https://chucknorris.io/), minus "explicit", "political" and "religious" categories. |  | 
 | !mute         | Will silence all StreamLabs alerts. Useful during a raid perhaps. Don't forget to `!unmute`! | ✔ |
 | !nextDupe     | This will display the name of the next duplicant, and remove it from the queue. | ✔ | 
+| !quote        | This allows a viewer to save a quote from the streamer, or recall a previous one. `!quote 7` OR `!quote add Some eloquent quote taken out of context.` It also makes it possible for mods to remove a quote (viewers can remove their own quotes as well). `!quote delete 7` Or, one could just get the total count. `!quote count` | **?** |
 | !spin         | Tell StreamLabs to spin that funky wheel of awesome! | ✔ | 
 | !startDupes   | Enables the `!dupeMe` command. | ✔ |  
 | !stopDupes    | You guessed it! Disables the `!dupeMe` command. | ✔ | 
@@ -131,6 +135,7 @@ with **ANYONE** (so, don't show them on stream!).
 
 | Chat Command  | Botisimo Syntax | API Route | Notes |
 | ------------- | --------------- | --------- | ----- |
+| !8ball        | `$(fetch https://MYDOMAIN/streaming/8ball?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/8ball | Doesn't actually take in a question, but can be used like this: `!8ball is it wise to have 1 more?`
 | !aurl         | `$(fetch https://MYDOMAIN/streaming/authUrl?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/authUrl | [Read this](#getting-your-streamlabs-token)
 | !credits      | `$(fetch https://MYDOMAIN/streaming/credits?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/credits | Uses: `!dice`, `!dice rules`, `!dice 10`
 | !dice         | `$[cooldown 3] $(fetch https://MYDOMAIN/streaming/dice?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&bet=$(query))` | /streaming/dice | This has a 3 second cool down at the beginning of the command, which you can remove / adjust as you see fit.
@@ -141,6 +146,7 @@ with **ANYONE** (so, don't show them on stream!).
 | !joke         | `$(fetch https://MYDOMAIN/streaming/joke?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
 | !mute         | `$(fetch https://MYDOMAIN/streaming/muteAlerts?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/muteAlerts | Will instruct StreamLabs to mute alert sounds. Don't forget to `!unmute`!
 | !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
+| !quote        | `$(fetch https://MYDOMAIN/streaming/quote?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&quote=$(urlencode $(query)))` | Will automatically deal with 'add Some quote' or 'remove 7'.
 | !spin         | `$(fetch https://MYDOMAIN/streaming/spinWheel?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/spinWheel | 
 | !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/startDupes | 
 | !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/stopDupes |
@@ -214,7 +220,7 @@ right?). Your answer is likely in the `responseBody` column of the `requestlog` 
 
 #### Version info
 
-Current release version: 0.0.4 (2018-07-16 08:46:58-05:00)
+Current release version: 0.0.5 (2018-07-23 16:52:08-05:00)
 
 This app was originally generated (started) on Sat Jun 02 2018 10:04:01 GMT-0500 (CDT) using Sails v1.0.2.
 
