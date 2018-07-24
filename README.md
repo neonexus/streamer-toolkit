@@ -84,9 +84,9 @@ you don't want the internet to have it's hands on, especially the domain you use
 **Keep in-mind** that this project is a Sails.js project, so it might be a good idea to understand the framework's basic concepts before diving into this repo. The 
 [Anatomy of a Sails App](https://sailsjs.com/documentation/anatomy) is a good place to start, if you want to learn more about how the files in this repo do their magic.
 
-Make sure you have the repo cloned to your machine, you've run `npm install`, you have [Redis installed](https://redis.io/topics/quickstart), you have a database setup and said database credentials 
+Make sure you have the repo cloned to your machine, you've run `npm install`, <!--you have [Redis installed](https://redis.io/topics/quickstart), -->you have a database setup and said database credentials 
 on-hand; don't worry about tables, the framework will generate / alter them on non-production. Next, we need to make sure you have 3 configuration files in-place: `config/local.js`, 
-`config/models.js`, and `config/session.js`. There are 2 sample files with the same names, just ending with `.sample`.
+`config/models.js`, and `config/session.js`. There are 3 sample files with the same names, just ending with `.sample`.
 
 1. Copy `config/local.js.sample` -> `config/local.js`, then modify all of the appropriate fields.
     * You will need to setup an application with [Twitch](https://dev.twitch.tv/docs/authentication/#registration) and [StreamLabs](https://streamlabs.com/dashboard/#/apps/register). 

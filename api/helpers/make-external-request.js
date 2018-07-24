@@ -108,13 +108,19 @@ module.exports = {
                 }
             }
 
+            let getParams = qs(resp.request.uri.query);
+
+            if (!sails.config.allowExplicit && getParams.text && getParams.fill_text && getParams.add) {
+                getParams.add = '*******';
+            }
+
             await RequestLog.create({
                 direction: 'outbound',
                 parent: parent,
                 method: resp.request.method,
                 path: resp.request.uri.protocol + '//' + resp.request.uri.hostname + resp.request.uri.pathname,
                 headers: CircularJSON.stringify(requestHeaders),
-                getParams: CircularJSON.stringify(qs(resp.request.uri.query)),
+                getParams: CircularJSON.stringify(getParams),
                 body: CircularJSON.stringify(inputBody),
                 responseCode: resp.statusCode,
                 responseBody: CircularJSON.stringify(responseBody),

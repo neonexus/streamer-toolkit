@@ -8,6 +8,8 @@
  * https://sailsjs.com/anatomy/config/routes-js
  */
 
+// USE THIS FOR HEADERS: http://patorjk.com/software/taag/#p=display&c=c&f=ANSI%20Shadow&t=NeoNexus
+
 module.exports.routes = {
 
 
@@ -44,42 +46,54 @@ module.exports.routes = {
     //  ╠═╣╠═╝║  ║╣ ║║║ ║║╠═╝║ ║║║║║ ║ ╚═╗
     //  ╩ ╩╩  ╩  ╚═╝╝╚╝═╩╝╩  ╚═╝╩╝╚╝ ╩ ╚═╝
 
+    /***
+     *    ┌┬┐┬ ┬┌─┐┬  ┬┌─┐┌─┐┌┐┌┌┬┐┌─┐
+     *     │││ │├─┘│  ││  ├─┤│││ │ └─┐
+     *    ─┴┘└─┘┴  ┴─┘┴└─┘┴ ┴┘└┘ ┴ └─┘
+     */
     'GET /streaming/dupeMe': {action: 'dupes/dupe-me', skipAssets: true},
     'GET /streaming/undupeMe': {action: 'dupes/undupe-me', skipAssets: true},
     'GET /streaming/nextDupe': {action: 'dupes/next-dupe', skipAssets: true},
     'GET /streaming/startDupes': {action: 'dupes/start-dupes', skipAssets: true},
     'GET /streaming/stopDupes': {action: 'dupes/stop-dupes', skipAssets: true},
 
-    'GET /streaming/tokens': {action: 'general/tokens', skipAssets: true},
-    'GET /streaming/joke': {action: 'general/joke', skipAssets: true},
-    'GET /streaming/dice': {action: 'general/dice', skipAssets: true},
-    'GET /streaming/give': {action: 'general/give', skipAssets: true},
-    'GET /streaming/take': {action: 'moderation/take', skipAssets: true},
-    'GET /streaming/giveAll': {action: 'moderation/give-all', skipAssets: true},
-    'GET /streaming/8ball': {action: 'general/eight-ball', skipAssets: true},
-    'GET /streaming/quote': {action: 'general/quote', skipAssets: true},
+    /***
+     *    ┬  ┌─┐┬ ┬┌─┐┬ ┌┬┐┬ ┬  ┌─┐┌─┐┬┌┐┌┌┬┐┌─┐
+     *    │  │ │└┬┘├─┤│  │ └┬┘  ├─┘│ │││││ │ └─┐
+     *    ┴─┘└─┘ ┴ ┴ ┴┴─┘┴  ┴   ┴  └─┘┴┘└┘ ┴ └─┘
+     */
+    'GET /streaming/points': {action: 'loyalty/points', skipAssets: true},
+    'GET /streaming/give': {action: 'loyalty/give', skipAssets: true},
+    'GET /streaming/take': {action: 'loyalty/take', skipAssets: true},
+    'GET /streaming/giveAll': {action: 'loyalty/give-all', skipAssets: true},
 
+    /***
+     *    ┌┬┐┌─┐┬ ┬┌─┐
+     *     │ │ │└┬┘└─┐
+     *     ┴ └─┘ ┴ └─┘
+     */
+    'GET /streaming/joke': {action: 'toys/joke', skipAssets: true},
+    'GET /streaming/dice': {action: 'toys/dice', skipAssets: true},
+    'GET /streaming/quote': {action: 'toys/quote', skipAssets: true},
+    'GET /streaming/8ball': {action: 'toys/eight-ball', skipAssets: true},
+
+    /***
+     *    ┌─┐┌┬┐┬─┐┌─┐┌─┐┌┬┐  ┬  ┌─┐┌┐ ┌─┐  ┬ ┬┌┬┐┬┬  ┬┌┬┐┬┌─┐┌─┐
+     *    └─┐ │ ├┬┘├┤ ├─┤│││  │  ├─┤├┴┐└─┐  │ │ │ ││  │ │ │├┤ └─┐
+     *    └─┘ ┴ ┴└─└─┘┴ ┴┴ ┴  ┴─┘┴ ┴└─┘└─┘  └─┘ ┴ ┴┴─┘┴ ┴ ┴└─┘└─┘
+     */
     'GET /streaming/credits': {action: 'moderation/credits', skipAssets: true},
     'GET /streaming/emptyJar': {action: 'moderation/empty-jar', skipAssets: true},
     'GET /streaming/spinWheel': {action: 'moderation/spin-wheel', skipAssets: true},
-
     'GET /streaming/muteAlerts': {action: 'moderation/mute-alerts', skipAssets: true},
     'GET /streaming/unmuteAlerts': {action: 'moderation/unmute-alerts', skipAssets: true},
     'GET /streaming/testAlert': {action: 'moderation/test-alert', skipAssets: true},
 
+    /***
+     *    ┌─┐┌─┐┌─┐┌─┐┬┌─┐┬    ┬─┐┌─┐┬ ┬┌┬┐┌─┐┌─┐
+     *    └─┐├─┘├┤ │  │├─┤│    ├┬┘│ ││ │ │ ├┤ └─┐
+     *    └─┘┴  └─┘└─┘┴┴ ┴┴─┘  ┴└─└─┘└─┘ ┴ └─┘└─┘
+     */
     'GET /streaming/authUrl': {action: 'special/get-auth-url', skipAssets: true},
-
-
-    //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
-    //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
-    //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝
-
     'GET /streaming/streamlabsCode': {action: 'special/get-streamlabs-token', skipAssets: true}
-
-
-    //  ╔╦╗╦╔═╗╔═╗
-    //  ║║║║╚═╗║
-    //  ╩ ╩╩╚═╝╚═╝
-
-
 };
