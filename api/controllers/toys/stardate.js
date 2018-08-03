@@ -95,6 +95,7 @@ module.exports = {
 
                 break;
             case 'tng':
+            case 'ds9':
                 // Original script by Phillip L. Sublett (TrekMaster@TrekGuide.com)
                 // http://TrekGuide.com/Stardates.htm
                 // An average Earth year comprises 365.2422 mean solar days
@@ -125,6 +126,7 @@ module.exports = {
                     stardateProper = stardateProper / 34367056.4;
                     stardateProper = Math.floor(stardateProper * 100);
                     stardateProper = stardateProper / 100;
+                    stardateProper = stardateProper.toFixed(1);
 
                     out = await sails.helpers.getViewerMention(viewer) + ' the stardate for ' + stardateInput.format('dddd, MMMM Do, YYYY') + ' in the TNG universe would be ' + stardateProper;
                 }
@@ -171,7 +173,7 @@ module.exports = {
 
                 break;
             default:
-                out = await sails.helpers.getViewerMention(viewer) + ' that is not a recognized stardate version. Only "today", "tng" or "og/original/tos" are options.';
+                out = await sails.helpers.getViewerMention(viewer) + ' that is not a recognized stardate version. Only "today", "tng/ds9" or "og/original/tos" are options.';
                 break;
         }
 

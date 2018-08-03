@@ -36,7 +36,7 @@
     "test": "npm run lint && npm run custom-tests && echo 'Done.'",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-    "tag": "git tag -fa \"current-dev\" -m \"$(date)\" && git push -f origin \"current-dev\""
+    "tag": "f(){ git tag -fa \"$1\" -m \"$(date)\" && git push -f origin \"$1\" ;}; f"
   },
   "main": "app.js",
   "repository": {
