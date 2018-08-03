@@ -1,6 +1,6 @@
 {
   "name": "streamer-toolkit",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "This is the server I've developed to augment my streaming experience (chat bot commands). I hope you find it useful. It's intended to be used with Botisimo, StreamLabs and Twitch.",
   "keywords": [
     "botisimo",

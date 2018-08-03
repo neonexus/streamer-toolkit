@@ -220,7 +220,7 @@ right?). Your answer is likely in the `responseBody` column of the `requestlog` 
 
 #### Version info
 
-Current release version: 0.0.5 (2018-07-23 16:52:08-05:00)
+Current release version: 0.0.6 (2018-08-03 16:14:32-05:00)
 
 This app was originally generated (started) on Sat Jun 02 2018 10:04:01 GMT-0500 (CDT) using Sails v1.0.2.
 
