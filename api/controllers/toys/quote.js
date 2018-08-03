@@ -36,10 +36,10 @@ module.exports = {
 
     fn: async function(inputs, exits, env){
         let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
-            command = (inputs.quote.trim().indexOf(' ') === -1)
+            command = (inputs.quote.trim().indexOf(' ') === -1) // this forces `!quote count` to be such that command = 'count', instead of quoteString
                 ? inputs.quote.trim()
                 : inputs.quote.trim().substr(0, inputs.quote.trim().indexOf(' ')),
-            quoteString = (inputs.quote.trim().indexOf(' ') === -1)
+            quoteString = (inputs.quote.trim().indexOf(' ') === -1) // without this, quoteString becomes the default variable to use in cases such as `!quote count`
                 ? ''
                 : inputs.quote.trim().substr(inputs.quote.trim().indexOf(' ') + 1),
             out = '',

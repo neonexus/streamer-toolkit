@@ -41,7 +41,7 @@ module.exports = {
             isOpen = await sails.helpers.getOption('dupes');
 
         if (!inputs.options) {
-            return await env.res.chatbotResponse('This command is used to add your name to the duplicant name pool. '
+            return await env.res.chatbotResponse('$[whisper] This command is used to add your name to the duplicant name pool. '
                 + 'First, type the command, a space, the name you want for your duplicant (proper casing, no spaces), then your duplicant preference (optional).'
                 + '\nExample: $(discord **)!dupeMe NeoNexusDeMortis I want to be Meep please!$(discord **)'
                 + '\nGet the current count: $(discord **)!dupeMe count$(discord **)');

@@ -8,7 +8,7 @@
  * https://sailsjs.com/anatomy/config/routes-js
  */
 
-// USE THIS FOR HEADERS: http://patorjk.com/software/taag/#p=display&c=c&f=ANSI%20Shadow&t=NeoNexus
+// USE THIS FOR HEADERS: http://patorjk.com/software/taag/#p=display&c=c&f=Calvin%20S&t=NeoNexus
 
 module.exports.routes = {
 
@@ -76,6 +76,7 @@ module.exports.routes = {
     'GET /streaming/dice': {action: 'toys/dice', skipAssets: true},
     'GET /streaming/quote': {action: 'toys/quote', skipAssets: true},
     'GET /streaming/8ball': {action: 'toys/eight-ball', skipAssets: true},
+    'GET /streaming/stardate': {action: 'toys/stardate', skipAssets: true},
 
     /***
      *    ┌─┐┌┬┐┬─┐┌─┐┌─┐┌┬┐  ┬  ┌─┐┌┐ ┌─┐  ┬ ┬┌┬┐┬┬  ┬┌┬┐┬┌─┐┌─┐
