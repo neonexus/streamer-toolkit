@@ -104,7 +104,7 @@ on-hand; don't worry about tables, the framework will generate / alter them on n
         * Just make sure you update the page rule when your Ngrok address changes (hence the temporary redirect).
 
 1. Next, copy `config/models.js.sample` -> `config/models.js`, and set the secret in the file to something unique and random (a hashed string of the current time + "I'm a little teapot" for example).
-[Here is a handy script](https://jsfiddle.net/hackerferret/Bw4d4/) to generate SHA 256 hashes.
+[Here is a handy script](https://jsfiddle.net/p02dye6L/) to generate SHA 256 hashes.
 
 1. Now, copy `config/session.js.sample` -> `config/session.js`, and do as you did before with `config/models.js`, set the secret in the file to something unique and random. 
 

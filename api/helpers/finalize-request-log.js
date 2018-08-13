@@ -33,23 +33,24 @@ module.exports = {
     fn: async function(inputs, exits){
         if (inputs.req.requestId) {
             let out = _.merge({}, inputs.body),
-                headers = _.merge({}, inputs.res._headers); // copy the object
+                headers = _.merge({}, inputs.res._headers), // copy the object
+                bleep = '*******';
 
             if (!sails.config.logSensitiveData) {
                 if (out._csrf) {
-                    out._csrf = '*******';
+                    out._csrf = bleep;
                 }
 
                 if (out.token) {
-                    out.token = '*******';
+                    out.token = bleep;
                 }
 
                 if (out.access_token) {
-                    out.access_token = '*******';
+                    out.access_token = bleep;
                 }
 
                 if (out.refresh_token) {
-                    out.refresh_token = '*******';
+                    out.refresh_token = bleep;
                 }
             }
 

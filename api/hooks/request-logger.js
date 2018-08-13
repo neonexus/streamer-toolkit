@@ -21,40 +21,41 @@ module.exports = function(sails){
                     if (req.method !== 'HEAD') {
                         let body = _.merge({}, req.body),
                             query = _.merge({}, req.query),
-                            headers = _.merge({}, req.headers); // copy the object
+                            headers = _.merge({}, req.headers), // copy the object
+                            bleep = '*******';
 
                         if (!sails.config.logSensitiveData) {
                             // don't log plain-text passwords
                             if (body.password) {
-                                body.password = '*******';
+                                body.password = bleep;
                             }
 
                             if (body.password2) {
-                                body.password2 = '*******';
+                                body.password2 = bleep;
                             }
 
                             if (body.currentPassword) {
-                                body.currentPassword = '*******';
+                                body.currentPassword = bleep;
                             }
 
                             if (body.newPassword) {
-                                body.newPassword = '*******';
+                                body.newPassword = bleep;
                             }
 
                             if (body.newPassword2) {
-                                body.newPassword2 = '*******';
+                                body.newPassword2 = bleep;
                             }
 
                             if (body.pass) {
-                                body.pass = '*******';
+                                body.pass = bleep;
                             }
 
                             if (query.securityToken) {
-                                query.securityToken = '*******';
+                                query.securityToken = bleep;
                             }
 
                             if (headers.securityToken) {
-                                headers.securityToken = '*******';
+                                headers.securityToken = bleep;
                             }
                         }
 

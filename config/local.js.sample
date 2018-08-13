@@ -42,7 +42,7 @@ module.exports = {
     botisimo: {
         // this is used to ensure the command is being run from your Botisimo setup
         // NEVER share your Botisimo syntax with your security token! They will be able to do just about anything you can.
-        customSecurityToken: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' // Go here and generate a new SHA256 string to use: https://jsfiddle.net/hackerferret/Bw4d4/
+        customSecurityToken: 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' // Go here and generate a new SHA256 string to use: https://jsfiddle.net/p02dye6L/
     },
 
     allowExplicit: false, // Changing this to true will enable !joke explicit | religious | political, and disable the naughty words filter
