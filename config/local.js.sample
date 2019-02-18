@@ -36,7 +36,9 @@ module.exports = {
         token: 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC',
         clientId: 'DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD', // Only required if you need to get a streamLabs token (above)
         clientSecret: 'EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', // Only required if you need to get a streamLabs token (above)
-        redirectUri: 'https://mydomain.is.awesome/streaming/streamlabsCode' // Only required if you need to get a streamLabs token (above) (leave /streaming/streamlabsCode untouched)
+        redirectUri: 'https://mydomain.is.awesome/streaming/streamlabsCode', // Only required if you need to get a streamLabs token (above) (leave /streaming/streamlabsCode untouched)
+        loyaltyPointsLabel: 'tokens', // what you call your loyalty points in StreamLabs
+        loyaltyPointsCommand: '!tokens' // include full command
     },
 
     botisimo: {

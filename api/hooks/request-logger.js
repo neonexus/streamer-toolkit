@@ -1,4 +1,4 @@
-let CircularJSON = require('circular-json');
+const stringify = require('json-stringify-safe');
 
 module.exports = function(sails){
     return {
@@ -19,10 +19,11 @@ module.exports = function(sails){
             before: {
                 '*': function(req, res, next){
                     if (req.method !== 'HEAD') {
+                        const bleep = '*******';
+
                         let body = _.merge({}, req.body),
                             query = _.merge({}, req.query),
-                            headers = _.merge({}, req.headers), // copy the object
-                            bleep = '*******';
+                            headers = _.merge({}, req.headers); // copy the object
 
                         if (!sails.config.logSensitiveData) {
                             // don't log plain-text passwords
@@ -60,15 +61,15 @@ module.exports = function(sails){
                         }
 
                         if (_.isObject(body)) {
-                            body = CircularJSON.stringify(body);
+                            body = stringify(body);
                         }
 
                         RequestLog.create({
                             direction: 'inbound',
                             method: req.method,
                             path: req.path,
-                            headers: CircularJSON.stringify(headers),
-                            getParams: CircularJSON.stringify(query),
+                            headers: stringify(headers),
+                            getParams: stringify(query),
                             body: body
                         }).meta({fetch: true}).exec(function(err, newRequest){
                             if (err) {

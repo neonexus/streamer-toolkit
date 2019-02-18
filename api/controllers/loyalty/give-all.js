@@ -1,7 +1,7 @@
 module.exports = {
-    friendlyName: 'Give tokens to all viewers',
+    friendlyName: 'Give loyalty points to all viewers',
 
-    description: 'Allows the streamer or mods to give all current viewers tokens. Cheers!',
+    description: 'Allows the streamer or mods to give all current viewers loyalty points. Cheers!',
 
     inputs: {
         user: {
@@ -22,8 +22,8 @@ module.exports = {
             required: true
         },
 
-        tokens: {
-            description: 'The number of tokens to give everyone.',
+        points: {
+            description: 'The number of loyalty points to give everyone.',
             type: 'number'
         }
     },
@@ -33,7 +33,8 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform});
+        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
+            points = parseInt(inputs.points);
 
         if (viewer.platform !== 'twitch') {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
@@ -43,7 +44,7 @@ module.exports = {
             return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' this is a moderator only command.');
         }
 
-        if (!viewer.isMe && tokens < 1) {
+        if (!viewer.isMe && points < 1) {
             return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' nice try, but you can\'t take tokens from someone else (or use zero).');
         }
 
@@ -53,11 +54,11 @@ module.exports = {
             bearer: sails.config.streamLabs.token,
             body: {
                 channel: sails.config.twitch.channel,
-                value: inputs.tokens
+                value: inputs.points
             },
             method: 'POST'
         });
 
-        return await env.res.chatbotResponse('LOOKOUT! Everyone currently watching just scored ' + inputs.tokens + ' tokens!');
+        return await env.res.chatbotResponse('LOOKOUT! Everyone currently watching just scored ' + inputs.points + ' ' + sails.config.streamLabs.loyaltyPointsLabel + '! TheIlluminati');
     }
 };

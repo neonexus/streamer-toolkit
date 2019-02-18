@@ -1,4 +1,4 @@
-let CircularJSON = require('circular-json');
+const stringify = require('json-stringify-safe');
 
 module.exports = {
 
@@ -55,18 +55,19 @@ module.exports = {
             }
 
             if (_.isObject(out)) {
-                out = CircularJSON.stringify(out);
+                out = stringify(out);
             }
 
-            let diff = process.hrtime(inputs.req._customStartTime),
+            const diff = process.hrtime(inputs.req._customStartTime),
                 time = diff[0] * 1e3 + diff[1] * 1e-6,
-                totalTime = time.toFixed(4) + 'ms',
-                log = {
-                    responseCode: inputs.res.statusCode,
-                    responseBody: out,
-                    responseHeaders: CircularJSON.stringify(headers),
-                    responseTime: totalTime
-                };
+                totalTime = time.toFixed(4) + 'ms';
+
+            let log = {
+                responseCode: inputs.res.statusCode,
+                responseBody: out,
+                responseHeaders: stringify(headers),
+                responseTime: totalTime
+            };
 
             if (inputs.req.viewer) {
                 log.viewer = inputs.req.viewer.id;

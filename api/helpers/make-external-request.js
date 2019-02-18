@@ -1,6 +1,6 @@
-let request = require('request'),
+const request = require('request'),
     qs = require('querystring').parse,
-    CircularJSON = require('circular-json');
+    stringify = require('json-stringify-safe');
 
 module.exports = {
     friendlyName: 'Make external request',
@@ -45,13 +45,15 @@ module.exports = {
     },
 
     fn: async function(inputs, exits){
+        const start = process.hrtime(),
+            bleep = '******';
+
         let options = {
                 json: inputs.json,
                 gzip: true,
                 method: inputs.method,
                 uri: inputs.uri
-            },
-            start = process.hrtime();
+            };
 
         if (inputs.bearer) {
             options.auth = {bearer: inputs.bearer};
@@ -82,28 +84,28 @@ module.exports = {
 
             if (!sails.config.logSensitiveData) {
                 if (requestHeaders.authorization) {
-                    requestHeaders.authorization = '******';
+                    requestHeaders.authorization = bleep;
                 }
 
                 if (requestHeaders['Client-ID']) {
-                    requestHeaders['Client-ID'] = '*******'
+                    requestHeaders['Client-ID'] = bleep;
                 }
 
                 if (responseBody.access_token) {
-                    responseBody.access_token = '*******';
+                    responseBody.access_token = bleep;
                 }
 
                 if (responseBody.refresh_token) {
-                    responseBody.refresh_token = '*******';
+                    responseBody.refresh_token = bleep;
                 }
 
                 if (inputs.json) {
                     if (inputBody.client_id) {
-                        inputBody.client_id = '*******';
+                        inputBody.client_id = bleep;
                     }
 
                     if (inputBody.client_secret) {
-                        inputBody.client_secret = '*******';
+                        inputBody.client_secret = bleep;
                     }
                 }
             }
@@ -111,7 +113,7 @@ module.exports = {
             let getParams = qs(resp.request.uri.query);
 
             if (!sails.config.allowExplicit && getParams.text && getParams.fill_text && getParams.add) {
-                getParams.add = '*******';
+                getParams.add = bleep;
             }
 
             await RequestLog.create({
@@ -119,12 +121,12 @@ module.exports = {
                 parent: parent,
                 method: resp.request.method,
                 path: resp.request.uri.protocol + '//' + resp.request.uri.hostname + resp.request.uri.pathname,
-                headers: CircularJSON.stringify(requestHeaders),
-                getParams: CircularJSON.stringify(getParams),
-                body: CircularJSON.stringify(inputBody),
+                headers: stringify(requestHeaders),
+                getParams: stringify(getParams),
+                body: stringify(inputBody),
                 responseCode: resp.statusCode,
-                responseBody: CircularJSON.stringify(responseBody),
-                responseHeaders: CircularJSON.stringify(resp.headers),
+                responseBody: stringify(responseBody),
+                responseHeaders: stringify(resp.headers),
                 responseTime: totalTime
             });
 

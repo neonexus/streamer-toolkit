@@ -1,6 +1,6 @@
 {
   "name": "streamer-toolkit",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "This is the server I've developed to augment my streaming experience (chat bot commands). I hope you find it useful. It's intended to be used with Botisimo, StreamLabs and Twitch.",
   "keywords": [
     "botisimo",
@@ -15,17 +15,18 @@
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
     "async": "^2.6.1",
-    "circular-json": "^0.5.5",
-    "cron": "^1.3.0",
+    "bower": "^1.8.8",
+    "cron": "^1.6.0",
     "grunt": "^1.0.3",
+    "json-stringify-safe": "^5.0.1",
     "mocha": "^5.2.0",
-    "moment-timezone": "^0.5.21",
-    "request": "^2.87.0",
-    "sails": "^1.0.2",
-    "sails-hook-orm": "^2.0.0-16",
-    "sails-mysql": "^1.0.0",
+    "moment-timezone": "^0.5.23",
+    "request": "^2.88.0",
+    "sails": "^1.2.0-2",
+    "sails-hook-orm": "^2.1.1",
+    "sails-mysql": "^1.0.1",
     "serve-favicon": "^2.5.0",
-    "twitch": "^0.16.1"
+    "twitch": "^1.3.2"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3"
@@ -36,6 +37,7 @@
     "test": "npm run lint && npm run custom-tests && echo 'Done.'",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "version-update": "f(){ sed -i '.tmp' -E 's/(\"version\":[[:space:]]*\").+(\")/\\1'${1}'\\2/g' 'package.json'; rm 'package.json.tmp'; }; f",
     "tag": "f(){ git tag -fa \"$1\" -m \"$(date)\" && git push -f origin \"$1\" ;}; f"
   },
   "main": "app.js",

@@ -41,7 +41,7 @@
     "sails": true,
     "_": true,
     "async": true,
-      "utils": true,
+      "utils": true
     // …and any others (e.g. `"Organization": true`)
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   },
@@ -54,7 +54,7 @@
     "eqeqeq":                       ["error", "always"],
     "eol-last":                     ["warn"],
     "handle-callback-err":          ["error"],
-    "indent":                       ["warn", 2, {
+    "indent":                       ["warn", 4, {
       "SwitchCase": 1,
       "MemberExpression": "off",
       "FunctionDeclaration": {"body":1, "parameters":"off"},

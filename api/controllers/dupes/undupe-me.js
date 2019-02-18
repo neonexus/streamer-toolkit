@@ -34,7 +34,7 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
+        const viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
             dupe = await Dupe.findOne({viewer: viewer.id});
 
         if (!dupe) {
@@ -48,7 +48,7 @@ module.exports = {
         if (inputs.confirmed.toLowerCase() === 'yes') {
             Dupe.destroy({viewer: viewer.id}, function(err){
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 }
             });
 

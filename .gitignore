@@ -121,7 +121,6 @@ node_modules
 .DS_STORE
 .netbeans
 nbproject
-.idea
 .node_history
 dump.rdb
 
@@ -132,3 +131,13 @@ lib-cov
 *.out
 *.pid
 
+################################################
+# Don't include .idea,
+# but keep the run configurations for
+# Jetbrains IDE's
+################################################
+.idea/*
+!.idea/runConfigurations
+
+# Don't worry about it.
+views/scooter

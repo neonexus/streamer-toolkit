@@ -16,7 +16,7 @@ could be useful, say if the power goes out (of course, that would require this s
 
 Because I'm a programmer, I was inspired to create, and because it allows me a greater flexibility in what is possible in live chat. `!testAlert` for example, instructs StreamLabs to send a test 
 alert so you can adjust your overlays. Or `!joke` to get a random [Chuck Norris](https://chucknorris.io/) factoid. It has also allowed me to make use of the best parts of Botisimo, while using 
-the loyalty system on StreamLabs for things like `!dice`, to gamble with the "tokens" viewers earn from watching. I also hope, that this could be a useful tool to some, be it something to learn 
+the loyalty system on StreamLabs for things like `!dice`, to gamble with the loyalty points viewers earn from watching. I also hope, that this could be a useful tool to some, be it something to learn 
 with, or ideally inspire some new chat feature.
 
 **Why Sails, and not X framework?**
@@ -53,8 +53,8 @@ contact StreamLabs after your [application is registered](https://streamlabs.com
 | !dice         | A gambling feature, designed to use the loyalty points system from StreamLabs. `!dice rules` will explain what a win or loss is. |  | ✔
 | !dupeMe       | This is a command that was inspired by [Ayka](https://www.twitch.tv/aykatv). It is mainly used while streaming [Oxygen Not Included](https://www.klei.com/games/oxygen-not-included), to allow a viewer to add their name (any name really) to a queue, used to name the "duplicants" (aka 3D-printed people). |  | 
 | !emptyJar     | Tell StreamLabs to empty the tip jar. | ✔ | 
-| !give         | Allows a viewer to give tokens (loyalty points) from their total to another viewer's total. If setup correctly (the `isMe` flag is [set in the database](#admin-and-mod-flags)), and you run the command, it will bypass the need to have tokens. |  | ✔
-| !giveAll      | Give everyone currently viewing some extra tokens. | ✔ | ✔
+| !give         | Allows a viewer to give loyalty points from their total to another viewer's total. If setup correctly (the `isMe` flag is [set in the database](#admin-and-mod-flags)), and you run the command, it will bypass the need to have loyalty points. |  | ✔
+| !giveAll      | Give everyone currently viewing some extra loyalty points. | ✔ | ✔
 | !joke         | Gets a random joke from [ChuckNorris.io](https://chucknorris.io/), minus "explicit", "political" and "religious" categories. |  | 
 | !mute         | Will silence all StreamLabs alerts. Useful during a raid perhaps. Don't forget to `!unmute`! | ✔ |
 | !nextDupe     | This will display the name of the next duplicant, and remove it from the queue. | ✔ | 
@@ -63,9 +63,9 @@ contact StreamLabs after your [application is registered](https://streamlabs.com
 | !stardate     | This fun little toy will convert calendar dates to stardates, and vice versa for "today", "tng/ds9", and "og/original/tos" versions. The keyword `today` can also be used for the date/stardate. `!stardate 2018-07-05` is the same as `!stardate today 2018-07-05`. `!stardate tng 47779.2` is the reverse of `!stardate tng 2370-07-17 12:00`. | | 
 | !startDupes   | Enables the `!dupeMe` command. | ✔ |  
 | !stopDupes    | You guessed it! Disables the `!dupeMe` command. | ✔ | 
-| !take         | This will remove the specified tokens from the specified viewer. | ✔ | ✔
+| !take         | This will remove the specified loyalty points from the specified viewer. | ✔ | ✔
 | !testAlert    | Need to test various alerts for your overlay placement? Maybe you just want to see what they look like? This is the command you are looking for. `!testAlert types`, `!testAlert raid` | ✔ |
-| !tokens       | This will retrieve the current loyalty points of the user running the command, and attempt to retrieve the length of time they have been following the channel. |  | ✔
+| !points       | This will retrieve the current loyalty points of the user running the command, and attempt to retrieve the length of time they have been following the channel. |  | ✔
 | !undupeMe     | Allows the viewer to remove their name from the duplicant naming pool. |  | 
 | !unmute       | The obvious reverse of `!mute`. Will re-enable StreamLabs' alert sounds. | ✔ |
 
@@ -91,7 +91,7 @@ on-hand; don't worry about tables, the framework will generate / alter them on n
 
 1. Copy `config/local.js.sample` -> `config/local.js`, then modify all of the appropriate fields.
     * You will need to setup an application with [Twitch](https://dev.twitch.tv/docs/authentication/#registration) and [StreamLabs](https://streamlabs.com/dashboard/#/apps/register). 
-    * If you are wanting to use commands like `!dice` or `!tokens`, you will need to send an email to the developers of StreamLabs after application registration. The details are on their site,
+    * If you are wanting to use commands like `!dice` or `!points`, you will need to send an email to the developers of StreamLabs after application registration. The details are on their site,
         linked above. 
     * Don't worry about the StreamLabs token (just the client ID, secret and redirectUri); I built a [special feature](#getting-your-streamlabs-token) to help easily retrieve your StreamLabs OAuth 
         token (which does not expire).
@@ -142,8 +142,8 @@ with **ANYONE** (so, don't show them on stream!).
 | !dice         | `$[cooldown 3] $(fetch https://MYDOMAIN/streaming/dice?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&bet=$(query))` | /streaming/dice | This has a 3 second cool down at the beginning of the command, which you can remove / adjust as you see fit.
 | !dupeMe       | `$(fetch https://MYDOMAIN/streaming/dupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&options=$(urlencode $(query)))` | /streaming/dupeMe | Intended use: `!dupeMe NeoNexus` or `!dupeMe NeoNexus I want to be Meep please!`
 | !emptyJar     | `$(fetch https://MYDOMAIN/streaming/emptyJar?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/emptyJar |
-| !give         | `$(fetch https://MYDOMAIN/streaming/give?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
-| !giveAll      | `$(fetch https://MYDOMAIN/streaming/giveAll?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&tokens=$(urlencode $(1)))` | /streaming/giveAll | Reward current watchers with tokens: `!giveAll 10`.
+| !give         | `$(fetch https://MYDOMAIN/streaming/give?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&points=$(urlencode $(2)))` | /streaming/give | Intended to be used like this: `!give @NeoNexus_DeMortis 100`.
+| !giveAll      | `$(fetch https://MYDOMAIN/streaming/giveAll?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&points=$(urlencode $(1)))` | /streaming/giveAll | Reward current watchers with loyalty points: `!giveAll 10`.
 | !joke         | `$(fetch https://MYDOMAIN/streaming/joke?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&category=$(urlencode $(query)))` | /streaming/joke | Gotta love those Chuck Norris jokes. Uses: `!joke`, `!joke categories`, `!joke travel`
 | !mute         | `$(fetch https://MYDOMAIN/streaming/muteAlerts?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/muteAlerts | Will instruct StreamLabs to mute alert sounds. Don't forget to `!unmute`!
 | !nextDupe     | `$(fetch https://MYDOMAIN/streaming/nextDupe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/nextDupe | 
@@ -152,9 +152,9 @@ with **ANYONE** (so, don't show them on stream!).
 | !stardate     | `$(fetch https://MYDOMAIN/streaming/stardate?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&stardate=$(query))` | /streaming/stardate |
 | !startDupes   | `$(fetch https://MYDOMAIN/streaming/startDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/startDupes | 
 | !stopDupes    | `$(fetch https://MYDOMAIN/streaming/stopDupes?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/stopDupes |
-| !take         | `$(fetch https://MYDOMAIN/streaming/take?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&tokens=$(urlencode $(2)))` | /streaming/take | Intended use: `!take @NeoNexus_DeMortis 100`
+| !take         | `$(fetch https://MYDOMAIN/streaming/take?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&recipient=$(urlencode $(1))&points=$(urlencode $(2)))` | /streaming/take | Intended use: `!take @NeoNexus_DeMortis 100`
 | !testAlert    | `$(fetch https://MYDOMAIN/streaming/testAlert?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube)&alertType=$(urlencode $(1))&alertPlatform=$(urlencode $(2)))` | /streaming/testAlert | A streamer's best friend. `!testAlert types`
-| !tokens       | `$(fetch https://MYDOMAIN/streaming/tokens?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
+| !points       | `$(fetch https://MYDOMAIN/streaming/points?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/tokens |
 | !undupeMe     | `$(fetch https://MYDOMAIN/streaming/undupeMe?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))&confirmed=$(urlencode $(query))` | /streaming/undupeMe | 
 | !unmute       | `$(fetch https://MYDOMAIN/streaming/unmuteAlerts?securityToken=MYTOKEN&user=$(urlencode $(usernameplain))&userId=$(urlencode $(userid))&platform=$(discord discord)$(twitch twitch)$(mixer mixer)$(youtube youtube))` | /streaming/unmuteAlerts | Will instruct StreamLabs to re-enable alert sounds.
  
@@ -195,7 +195,7 @@ StreamLabs API OAuth token.
 this: ![StreamLabs OAuth Screen](https://raw.githubusercontent.com/neonexus/streamer-toolkit/master/assets/docs/StreamLabs%20OAuth.png)
 2. After clicking the approve button, if your redirect URI is setup correctly, you should be sent back to a page on this server. It will display your StreamLabs token to be used in `config/local.js`,
 but it will only do it once. You'll have to start over with `!aurl` otherwise.
-3. Now that the token is saved in your `config/local.js` file, test out `!tokens`. It should display how many loyalty points you have on your channel. Don't have any? Use `!give @MYUSER 100` to give 
+3. Now that the token is saved in your `config/local.js` file, test out `!points`. It should display how many loyalty points you have on your channel. Don't have any? Use `!give @MYUSER 100` to give 
 your self some.
 4. Roll those `!dice`!
 

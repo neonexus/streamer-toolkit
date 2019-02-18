@@ -50,6 +50,6 @@ module.exports = {
             die = await sails.helpers.rollDice(1, choices.length)[0],
             viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}); // used here to make admin account creation easier
 
-        return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' ' +choices[die - 1]);
+        return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' ' + choices[die - 1]);
     }
 };

@@ -1,7 +1,7 @@
 module.exports = {
-    friendlyName: 'Take tokens away',
+    friendlyName: 'Take loyalty points away',
 
-    description: 'Moderator only command to remove tokens from a particular viewer.',
+    description: 'Moderator only command to remove loyalty points from a particular viewer.',
 
     inputs: {
         user: {
@@ -22,13 +22,13 @@ module.exports = {
             required: true
         },
 
-        tokens: {
-            description: 'The number of tokens to remove from the viewer.',
+        points: {
+            description: 'The number of loyalty points to remove from the viewer.',
             type: 'string' // so we can use a custom error message if it's not a number
         },
 
         recipient: {
-            description: 'The viewer to remove tokens from.',
+            description: 'The viewer to remove loyalty points from.',
             type: 'string'
         }
     },
@@ -38,10 +38,10 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
-            recipient = inputs.recipient.replace('@', ''),
-            uri = sails.config.streamLabs.url + '/points?channel=' + sails.config.twitch.channel + '&username=' + recipient,
-            tokens = inputs.tokens;
+        const viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
+            recipient = inputs.recipient.replace('@', '');
+        let uri = sails.config.streamLabs.url + '/points?channel=' + sails.config.twitch.channel + '&username=' + recipient,
+            points = inputs.points;
 
         if (viewer.platform !== 'twitch') {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
@@ -59,26 +59,28 @@ module.exports = {
 
         let loserTokens = currentTokens.body.points;
 
-        if (isNaN(tokens)) {
+        if (isNaN(points)) {
             return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' it appears your syntax is incorrect. This is the correct format: !take @MENTION 10');
         }
 
-        tokens = tokens * 1;
+        points = parseInt(points);
 
-        if (tokens < 1) {
+        if (points < 1) {
             return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' the number must be positive (it will be subtracted from the user\'s total).');
         }
 
-        if (tokens > loserTokens) {
+        if (points > loserTokens) {
             loserTokens = 0;
         } else {
-            loserTokens = loserTokens - tokens;
+            loserTokens = loserTokens - points;
         }
 
         uri = sails.config.streamLabs.url + '/points/user_point_edit?channel=' + sails.config.twitch.channel + '&username=' + recipient;
 
         await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token, method: 'POST', body: {points: loserTokens}});
 
-        return await env.res.chatbotResponse('OUCH! Sorry @' + recipient + ', but you just lost ' + tokens + ' tokens, bringing your total to ' + loserTokens + '. No soup for you!');
+        return await env.res.chatbotResponse(
+            'OUCH! Sorry @' + recipient + ', but you just lost ' + points + ' ' + sails.config.streamLabs.loyaltyPointsLabel + ', bringing your total to ' + loserTokens + '. No soup for you!'
+        );
     }
 };

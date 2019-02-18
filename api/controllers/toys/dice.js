@@ -1,7 +1,7 @@
 module.exports = {
     friendlyName: 'Dice game',
 
-    description: 'A simple gambling game that uses the viewer\'s tokens.',
+    description: 'A simple gambling game that uses the viewer\'s loyalty points.',
 
     inputs: {
         user: {
@@ -48,8 +48,9 @@ module.exports = {
         }
 
         if (inputs.bet === 'rules') {
-            return await env.res.chatbotResponse('The rules are simple: you place your bet with "!dice BET", where BET is the number of tokens (!tokens) you are willing to wager, then the bot '
-                + 'will role the dice (2d6). 10 or 11 is break even. 12 is worth 2x. 7 is worth 3x. Snake eyes (2) is lose double. GOOD LUCK!');
+            return await env.res.chatbotResponse('The rules are simple: you place your bet with "!dice BET", where BET is the number of ' + sails.config.streamLabs.loyaltyPointsLabel
+                + ' (' + sails.config.streamLabs.loyaltyPointsCommand + ') you are willing to wager, then the bot will role the dice (2d6). 10 or 11 is break even. 12 is worth 2x. 7 is worth 3x. '
+                + 'Snake eyes (2) is lose double. GOOD LUCK!');
         }
 
         if (inputs.bet) {
@@ -58,16 +59,16 @@ module.exports = {
             return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' You must specify a wager (ex: !dice 5). If you want to know the rules, use !dice rules');
         }
 
-        let tokens = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
+        let points = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
 
-        if (tokens.err) {
-            console.log(tokens.err);
+        if (points.err) {
+            console.log(points.err);
         }
 
-        let points = tokens.body.points;
+        points = points.body.points;
 
         if (bet > points) {
-            return await env.res.chatbotResponse('You only have ' + points + ' tokens left. You don\'t have enough for this bet :(');
+            return await env.res.chatbotResponse('You only have ' + points + ' ' + sails.config.streamLabs.loyaltyPointsLabel + ' left. You don\'t have enough for this bet :(');
         }
 
         let rolls = sails.helpers.rollDice(2, 6),
@@ -78,12 +79,12 @@ module.exports = {
 
         switch (total) {
             case 2:
-                win = bet * -2;
-                message = 'lost everything and then some! You just got bit by the snake, and lost ' + win + ' tokens. OUCH! RuleFive WutFace';
+                win = bet * -2; // loss
+                message = 'lost everything and then some! You just got bit by the snake, and lost ' + win + ' ' + sails.config.streamLabs.loyaltyPointsLabel + '. OUCH! RuleFive WutFace';
                 break;
             case 7:
                 win = 3 * bet;
-                message = 'HIT THE JACKPOT! You just won ' + win + ' tokens! :O Kappa Kreygasm TheIlluminati';
+                message = 'HIT THE JACKPOT! You just won ' + win + ' ' + sails.config.streamLabs.loyaltyPointsLabel + '! :O Kappa Kreygasm TheIlluminati';
                 break;
             case 10:
             case 11:
@@ -92,10 +93,10 @@ module.exports = {
                 break;
             case 12:
                 win = 2 * bet;
-                message = 'lucky duck! You just won ' + win + ' tokens! BloodTrail KevinTurtle';
+                message = 'lucky duck! You just won ' + win + ' ' + sails.config.streamLabs.loyaltyPointsLabel + '! BloodTrail KevinTurtle';
                 break;
             default:
-                win = -1 * bet;
+                win = -1 * bet; // loss
                 message = 'lose! Womp womp CrreamAwk NotLikeThis'
         }
 

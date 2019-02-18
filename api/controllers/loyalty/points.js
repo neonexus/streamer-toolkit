@@ -1,9 +1,9 @@
 let moment = require('moment-timezone');
 
 module.exports = {
-    friendlyName: 'Tokens',
+    friendlyName: 'Loyalty Points',
 
-    description: 'Get the current viewer\'s current token count.',
+    description: 'Get the current viewer\'s current loyalty point count.',
 
     inputs: {
         user: {
@@ -21,7 +21,13 @@ module.exports = {
         platform: {
             description: 'The platform that the command was issued from.',
             type: 'string',
-            required: true
+            required: true,
+            enum: [
+                'twitch',
+                'youtube',
+                'discord',
+                'mixer'
+            ]
         }
     },
 
@@ -38,10 +44,10 @@ module.exports = {
             return await env.res.chatbotResponse('Sorry, this command currently only works on Twitch.');
         }
 
-        let tokens = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
+        let points = await sails.helpers.makeExternalRequest.with({requestId: env.req.requestId, uri: uri, bearer: sails.config.streamLabs.token});
 
-        if (tokens.err) {
-            console.log(tokens.err);
+        if (points.err) {
+            console.log(points.err);
         }
 
         let twitchFollowerMessage = '';
@@ -62,6 +68,8 @@ module.exports = {
             }
         }
 
-        return await env.res.chatbotResponse(await sails.helpers.getViewerMention(viewer) + ' you have ' + tokens.body.points + ' tokens available. ' + twitchFollowerMessage);
+        return await env.res.chatbotResponse(
+            await sails.helpers.getViewerMention(viewer) + ' you have ' + points.body.points + ' ' + sails.config.streamLabs.loyaltyPointsLabel + ' available. ' + twitchFollowerMessage
+        );
     }
 };

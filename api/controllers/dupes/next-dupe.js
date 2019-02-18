@@ -28,7 +28,7 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let dupesFound = await Dupe.find({}).populate('viewer').sort('id ASC'),
+        const dupesFound = await Dupe.find({}).populate('viewer').sort('id ASC'),
             dupe = dupesFound[0],
             user = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform});
 

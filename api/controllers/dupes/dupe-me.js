@@ -19,7 +19,13 @@ module.exports = {
         platform: {
             description: 'The platform that the command was issued from.',
             type: 'string',
-            required: true
+            required: true,
+            enum: [
+                'twitch',
+                'youtube',
+                'discord',
+                'mixer'
+            ]
         },
 
         options: {
@@ -35,8 +41,8 @@ module.exports = {
     },
 
     fn: async function (inputs, exits, env) {
-        let viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform}),
-            name = inputs.options.substr(0, inputs.options.indexOf(' ')),
+        const viewer = await sails.helpers.getViewer.with({req: env.req, userId: inputs.userId, user: inputs.user, platform: inputs.platform});
+        let name = inputs.options.substr(0, inputs.options.indexOf(' ')),
             note = inputs.options.substr(inputs.options.indexOf(' ') + 1),
             isOpen = await sails.helpers.getOption('dupes');
 
@@ -56,7 +62,7 @@ module.exports = {
             note = '';
         }
 
-        let dupes = await Dupe.count({});
+        const dupes = await Dupe.count({});
 
         if (inputs.options.toLowerCase() === 'count') {
             if (!dupes) {
